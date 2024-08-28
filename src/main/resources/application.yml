@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sys?allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: root
+    druid:
+      validation-query: SELECT 1 FROM DUAL
+      initial-size: 10 #初始化时建立物理连接的个数。
+      min-idle: 10  #最小连接池数量
+      max-active: 200 #最大连接池数量
+      min-evictable-idle-time-millis: 300000 #连接保持空闲而不被驱逐的最小时间
+      test-on-borrow: false  #申请连接时执行validationQuery检测连接是否有效
+      test-while-idle: true #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，
+      #执行validationQuery检测连接是否有效。
+      time-between-eviction-runs-millis: 30000 #1) Destroy线程会检测连接的间隔时间，
+      #如果连接空闲时间大于等于minEvictableIdleTimeMillis则关闭物理连接。
+      #2) testWhileIdle的判断依据
+      pool-prepared-statements: true  #是否缓存preparedStatement，也就是PSCache
+      max-open-prepared-statements: 100 #要启用PSCache，必须配置大于0，当大于0时，
+      #poolPreparedStatements自动触发修改为true
+  application:
+    name: AgriBigData
+    aop:
+      proxy-target-class: true
+
+server:
+  port: 8081
+  servlet:
+    context-path: /api
+
+mybatis:
+  mapper-locations: classpath:mybatis/**/*.xml
+  type-aliases-package: com.agri.agribigdata
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+logging:
+  level:
+    com.testabc.demo.ssmtest: debug
