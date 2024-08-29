@@ -3,6 +3,7 @@ package com.agri.agribigdata.exception;
 
 import com.agri.agribigdata.entity.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -12,7 +13,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResultVO ex(Exception e){
         log.error("捕获到异常: ",e);
-        return ResultVO.error(500,e.getMessage());
+        return ResultVO.error(HttpStatus.INTERNAL_SERVER_ERROR.value(),e.getMessage());
     }
 
     @ExceptionHandler(CustomException.class)

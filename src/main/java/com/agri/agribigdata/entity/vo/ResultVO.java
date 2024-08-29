@@ -25,4 +25,5 @@ public class ResultVO {
 
     public static ResultVO error(Integer code, String msg){return new ResultVO(code,msg,null);}
 
+
 }
