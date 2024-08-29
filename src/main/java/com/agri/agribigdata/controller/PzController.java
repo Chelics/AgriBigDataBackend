@@ -1,6 +1,5 @@
 package com.agri.agribigdata.controller;
 
-import com.agri.agribigdata.entity.query.PzQuery;
 import com.agri.agribigdata.entity.vo.ResultVO;
 import com.agri.agribigdata.service.PzService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +15,8 @@ public class PzController {
     PzService pzService;
 
     @GetMapping("/pz")
-    public ResultVO getQuery(@RequestParam PzQuery keyword){
-        return new ResultVO().success(pzService.getQuery(keyword));
+    public ResultVO getQueryPz(@RequestParam String name){
+        return new ResultVO().success(pzService.getQuery(name));
     }
 
 }

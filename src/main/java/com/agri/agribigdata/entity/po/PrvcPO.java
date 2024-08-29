@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PrvcPO {
-    private Integer id;
+    private String id;
     private String name;
 }

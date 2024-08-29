@@ -1,6 +1,5 @@
 package com.agri.agribigdata.service.impl;
 
-import com.agri.agribigdata.entity.query.PzQuery;
 import com.agri.agribigdata.entity.vo.PzVO;
 import com.agri.agribigdata.mapper.PzMapper;
 import com.agri.agribigdata.service.PzService;
@@ -13,7 +12,7 @@ public class PzServiceImpl implements PzService {
     PzMapper pzMapper;
 
     @Override
-    public PzVO getQuery(PzQuery pzQuery){
-        return new PzVO(pzMapper.getPzs(pzQuery.getName()), pzMapper.getCount(pzQuery.getName()));
+    public PzVO getQuery(String name){
+        return new PzVO(pzMapper.getPzs(name), pzMapper.getCount(name));
     }
 }
