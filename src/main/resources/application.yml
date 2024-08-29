@@ -30,9 +30,10 @@ server:
   servlet:
     context-path: /api
 
+
 mybatis:
-  mapper-locations: classpath:mybatis/**/*.xml
-  type-aliases-package: com.agri.agribigdata
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.agri.agribigdata.entity
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
