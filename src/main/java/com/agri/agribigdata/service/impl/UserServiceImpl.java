@@ -1,5 +1,6 @@
 package com.agri.agribigdata.service.impl;
 
+import com.agri.agribigdata.entity.query.PersonalQuery;
 import com.agri.agribigdata.entity.query.UserRQuery;
 import com.agri.agribigdata.exception.CustomException;
 import com.agri.agribigdata.mapper.UserMapper;
@@ -9,6 +10,8 @@ import com.agri.agribigdata.entity.query.UserPQuery;
 import com.agri.agribigdata.utils.SnowflakeIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -59,4 +62,26 @@ public class UserServiceImpl implements UserService {
     public UserBO login(UserPQuery userPQuery) {
         return userMapper.getByUsernameAndPassword(userPQuery);
     }
+
+
+
+
+    @Override
+    public void setPersonal(PersonalQuery personalQuery) throws CustomException {
+        String userId = userMapper.getIdByUsername(personalQuery.getUsername());
+        if(userId == null){
+            throw new CustomException(404,"用户不存在");
+        }
+        userMapper.setPrcv(userId, personalQuery.getPrvc());
+        List<String> pzList = personalQuery.getPzList();
+        if(pzList == null){
+            throw new CustomException(400,"品种列表为空");
+        }else{
+            userMapper.clearPersonalPz(userId);
+            for (String pz : personalQuery.getPzList()) {
+                userMapper.setPz(userId,pz);
+            }
+        }
+    }
+
 }

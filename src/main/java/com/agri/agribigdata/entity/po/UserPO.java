@@ -9,12 +9,12 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPO {
-    private Integer id;
+    private String id;
     private String username;
     private String tel;
     private String email;
     private String password;
-    private Integer prvcId;
+    private String prvcId;
     private String verifyCode;
     private Date verifyTime;
 }

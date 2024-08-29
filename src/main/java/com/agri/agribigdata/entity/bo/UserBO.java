@@ -14,7 +14,7 @@ public class UserBO {
     private String tel;
     private String email;
     private String password;
-    private Integer prvcId;
+    private String prvcId;
     private String verifyCode;
     private Date verifyTime;
 }
