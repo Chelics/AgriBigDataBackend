@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MarketQuetry {
-    private Integer prvcId;
+public class UserVQuery {
+    private String tel = null;
+    private String email = null;
+    private String vcode = null;
 }

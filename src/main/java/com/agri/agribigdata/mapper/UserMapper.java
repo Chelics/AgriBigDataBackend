@@ -3,6 +3,7 @@ package com.agri.agribigdata.mapper;
 import java.util.List;
 import com.agri.agribigdata.entity.bo.UserBO;
 import com.agri.agribigdata.entity.query.UserPQuery;
+import com.agri.agribigdata.entity.query.UserVQuery;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
@@ -13,6 +14,12 @@ public interface UserMapper {
 
     @Select("select * from user where username=#{username} and password=#{password}")
     UserBO getByUsernameAndPassword(UserPQuery userPQuery) ;
+
+    @Select("select * from user where email = #{email}")
+    UserBO getByEmail(UserVQuery userVQuery);
+
+    @Select("select * from user where tel = #{tel}")
+    UserBO getByTel(UserVQuery userVQuery);
 
     @Select("select count(*) from user where username=#{username}")
     boolean checkDoubleUsername(UserBO userBO);
@@ -35,4 +42,6 @@ public interface UserMapper {
     @Delete("delete from user_pz where user_id = #{userId}")
     void clearPersonalPz(String userId);
 
+    @Update("update user set verify_code = #{code}, verify_time = #{time} where email = #{email}")
+    void updateVerifyInfo(String code, String time, String email);
 }

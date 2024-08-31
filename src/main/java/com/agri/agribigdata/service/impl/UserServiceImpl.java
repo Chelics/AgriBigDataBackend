@@ -1,23 +1,37 @@
 package com.agri.agribigdata.service.impl;
 
+import com.agri.agribigdata.config.VerifyConfig;
 import com.agri.agribigdata.entity.query.PersonalQuery;
-import com.agri.agribigdata.entity.query.UserRQuery;
+import com.agri.agribigdata.entity.query.UserVQuery;
 import com.agri.agribigdata.exception.CustomException;
 import com.agri.agribigdata.mapper.UserMapper;
 import com.agri.agribigdata.service.UserService;
 import com.agri.agribigdata.entity.bo.UserBO;
 import com.agri.agribigdata.entity.query.UserPQuery;
-import com.agri.agribigdata.utils.SnowflakeIdGenerator;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Random;
 
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private VerifyConfig verifyConfig;
+    @Resource
+    JavaMailSender javaMailSender;
     @Override
     public void register(UserBO userBO) throws CustomException {
         if(isDuplicatedUsername(userBO)){
@@ -46,24 +60,38 @@ public class UserServiceImpl implements UserService {
         return userMapper.checkDoubleEmail(userBO);
     }
 
-    @Override
-    public UserBO transferUserRQ2B(UserRQuery userRQuery){
-        SnowflakeIdGenerator idGenerator = new SnowflakeIdGenerator(1, 1); // 设置workerId和datacenterId
-        UserBO userBO = new UserBO();
-        userBO.setId(idGenerator.generateStringId());
-        userBO.setUsername(userRQuery.getUsername());
-        userBO.setPassword(userRQuery.getPassword());
-        userBO.setTel(userRQuery.getTel());
-        userBO.setEmail(userBO.getEmail());
-        return userBO;
-    }
 
     @Override
-    public UserBO login(UserPQuery userPQuery) {
+    public UserBO loginWithPassword(UserPQuery userPQuery) {
         return userMapper.getByUsernameAndPassword(userPQuery);
     }
 
+    public void loginWithVCode(UserVQuery userVQuery) throws CustomException {
+        if(userVQuery.getEmail()!=null){
+            UserBO userBO = userMapper.getByEmail(userVQuery);
+            if(!userBO.getVerifyCode().equals(userVQuery.getVcode())){
+                throw new CustomException(401,"验证码错误");
+            }
+            if(Duration.between(userBO.getVerifyTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), LocalDateTime.now()).toMinutes() > verifyConfig.getVerifyMinutes()){
+                throw new CustomException(401,"验证码已过期");
+            }
 
+        }
+    }
+
+    @Override
+    public void sendEmail(String to) {
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        Random random = new Random();
+        Integer code = random.nextInt(89999) + 10000;
+        userMapper.updateVerifyInfo(code.toString(), LocalDateTime.now().toString(), to);
+        message.setSubject("【南山村网站】您的注册码");
+        message.setText("您的验证码是: " + code +", 该验证码" + verifyConfig.getVerifyDescription() + "内有效, 请及时完成注册。若不是本人操作请忽略此邮件。");
+        message.setFrom("agriBigData@163.com");
+        message.setTo(to);
+        javaMailSender.send(message);
+    }
 
 
     @Override
