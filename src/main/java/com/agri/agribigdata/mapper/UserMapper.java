@@ -33,7 +33,7 @@ public interface UserMapper {
     @Update("update user set prvc_id = #{prvcId} where id = #{userId}")
     void setPrcv(String userId, String prvcId);
 
-    @Insert("insert into user_pz(user_id, pz_id) values (#{userId},#{pzId})")
+    @Insert("insert into user_pz(user_id, pz) values (#{userId},#{pzId})")
     void setPz(String userId, String pzId);
 
     @Select("select id from user where username=#{username}")

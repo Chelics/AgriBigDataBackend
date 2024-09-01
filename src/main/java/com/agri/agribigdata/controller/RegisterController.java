@@ -1,5 +1,6 @@
 package com.agri.agribigdata.controller;
 
+import com.agri.agribigdata.entity.bo.UserBO;
 import com.agri.agribigdata.entity.query.UserRQuery;
 import com.agri.agribigdata.entity.vo.ResultVO;
 import com.agri.agribigdata.exception.CustomException;
@@ -23,7 +24,7 @@ public class RegisterController {
             return ResultVO.error(400, "必填项未填写完整");
         }
 
-        userService.register(userService.transferUserRQ2B(userRQuery));
+        userService.register(UserBO.transferUserRQ2B(userRQuery));
         return ResultVO.success();
     }
 
