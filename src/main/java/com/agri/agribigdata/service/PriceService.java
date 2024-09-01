@@ -7,6 +7,7 @@ import com.agri.agribigdata.entity.query.PzQuery;
 import com.agri.agribigdata.entity.vo.PriceTopFallVO;
 import com.agri.agribigdata.entity.vo.PriceTopRiseVO;
 import com.agri.agribigdata.entity.vo.PriceVO;
+import com.agri.agribigdata.entity.vo.IndexVO;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface PriceService {
     List<PriceTopFallVO> getTopFall(PriceTopQuery priceTopQuery);
 
     PriceVO getPrice(PriceBO priceBO);
+
+    IndexVO getTwoIndex();
+
+    IndexVO getHbIndex();
 }
