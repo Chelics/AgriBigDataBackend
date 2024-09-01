@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.agri.agribigdata.mapper.BriefMapper">
+    <select id="getMarketByNameAndPrvc" resultType="com.agri.agribigdata.entity.vo.MarketBriefVO">
+        select * from market_info
+        <where>
+            <if test="name != null and name != ''">
+                name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="prvc != null and prvc != ''">
+                AND prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getEnterprise" resultType="com.agri.agribigdata.entity.po.EnterprisePO">
+        select * from enterprise
+        <where>
+            <if test="pz != null and pz != ''">
+                pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+            <if test="prvc != null and prvc != ''">
+                AND prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+            <if test="supplyType != null and supplyType != ''">
+                supplyType = #{supplyType}
+            </if>
+        </where>
+        limit #{pageSize} offset #{offset}
+    </select>
+</mapper>

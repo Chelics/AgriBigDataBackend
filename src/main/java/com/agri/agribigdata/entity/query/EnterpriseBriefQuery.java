@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleGuideQuery {
+public class EnterpriseBriefQuery {
+    private String prvc = null;
     private String pz = null;
-    private String title = null;
-    private String startDate = null;
-    private String endDate = null;
+    private String supplyType = null;
+    private Integer pageSize = 10;
+    private Integer pageNum = 1;
 }

@@ -30,6 +30,7 @@
         </where>
         order by ABS(DATEDIFF(NOW(),release_date))
     </select>
+
     <select id="getNewsArticle" resultType="com.agri.agribigdata.entity.vo.ArticleNewsVO">
         select * from article_news
         <where>
