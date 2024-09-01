@@ -2,7 +2,7 @@ package com.agri.agribigdata.service.impl;
 
 import com.agri.agribigdata.entity.query.ArticleGuideQuery;
 import com.agri.agribigdata.entity.query.ArticleNewsQuery;
-import com.agri.agribigdata.entity.query.ArticlePzQuery;
+import com.agri.agribigdata.entity.query.PzQuery;
 import com.agri.agribigdata.entity.vo.ArticleGuideVO;
 import com.agri.agribigdata.entity.vo.ArticleNewsVO;
 import com.agri.agribigdata.mapper.ArticleMapper;
@@ -18,8 +18,8 @@ public class ArticleServiceImpl implements ArticleService {
     ArticleMapper articleMapper;
 
     @Override
-    public List<String> getPzForArticle(ArticlePzQuery articlePzQuery) {
-        return articleMapper.getPz(articlePzQuery.getName());
+    public List<String> getPzForArticle(PzQuery pzQuery) {
+        return articleMapper.getPz(pzQuery.getName());
     }
 
     @Override

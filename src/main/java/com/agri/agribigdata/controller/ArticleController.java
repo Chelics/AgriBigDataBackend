@@ -2,7 +2,7 @@ package com.agri.agribigdata.controller;
 
 import com.agri.agribigdata.entity.query.ArticleGuideQuery;
 import com.agri.agribigdata.entity.query.ArticleNewsQuery;
-import com.agri.agribigdata.entity.query.ArticlePzQuery;
+import com.agri.agribigdata.entity.query.PzQuery;
 import com.agri.agribigdata.entity.vo.ResultVO;
 import com.agri.agribigdata.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +18,8 @@ public class ArticleController {
     ArticleService articleService;
 
     @PostMapping("/article/pz")
-    public ResultVO getPZForArticle(@RequestBody ArticlePzQuery articlePzQuery){
-        return ResultVO.success(articleService.getPzForArticle(articlePzQuery));
+    public ResultVO getPZForArticle(@RequestBody PzQuery pzQuery){
+        return ResultVO.success(articleService.getPzForArticle(pzQuery));
     }
 
     @PostMapping("/article/guide")

@@ -7,12 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PriceQuery {
-    private String pz;
-    private String market;
+public class MarketPriceQuery {
     private String prvc;
-    private String startDate;
-    private String endDate;
-    private Integer pageSize;
-    private Integer pageNum;
+    private String name;
 }

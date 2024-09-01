@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.agri.agribigdata.mapper.PriceMapper">
+
+    <select id="getMarketByPrvcAndName" resultType="java.lang.String">
+        select distinct market from price_market
+        <where>
+            <if test="name != null and name != ''">
+                market LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="prvc != null and prvc != ''">
+                AND prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getPz" resultType="java.lang.String">
+        select * from pz
+        <where>
+            <if test="name != null and name != ''">
+                name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getTopRise" resultType="com.agri.agribigdata.entity.vo.PriceTopRiseVO">
+        select * from price_rise
+        <where>
+            <if test="prvc != null and prvc != ''">
+                prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+        </where>
+        order by rise DESC
+    </select>
+
+    <select id="getTopFall" resultType="com.agri.agribigdata.entity.vo.PriceTopFallVO">
+        select * from price_fall
+        <where>
+            <if test="prvc != null and prvc != ''">
+                prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+        </where>
+        order by fall DESC
+    </select>
+
+    <select id="getPrice" resultType="com.agri.agribigdata.entity.po.PricePO">
+        select * from price_market
+        <where>
+            <if test="pz != null and pz != ''">
+                pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+            <if test="prvc != null and prvc != ''">
+                AND prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+            <if test="market != null and market != ''">
+                AND market LIKE CONCAT('%', #{market}, '%')
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND release_time >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate} >= release_time
+            </if>
+        </where>
+        order by ABS(DATEDIFF(NOW(),release_time))
+        limit #{pageSize} offset #{offset}
+    </select>
+
+    <select id="getPriceCount" resultType="java.lang.Integer">
+        select count(*) from price_market
+        <where>
+            <if test="pz != null and pz != ''">
+                pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+            <if test="prvc != null and prvc != ''">
+                AND prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+            <if test="market != null and market != ''">
+                AND market LIKE CONCAT('%', #{market}, '%')
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND release_time >= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND #{endDate} >= release_time
+            </if>
+        </where>
+    </select>
+
+</mapper>

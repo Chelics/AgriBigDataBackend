@@ -18,6 +18,5 @@ public interface BriefMapper {
 
     List<EnterprisePO> getEnterprise(EnterpriseBriefBO enterpriseBriefBO);
 
-    @Select("select count(*) from enterprise")
     Integer getEnterpriseCount(EnterpriseBriefQuery enterpriseBriefQuery);
 }

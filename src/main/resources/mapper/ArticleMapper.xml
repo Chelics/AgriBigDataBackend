@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.agri.agribigdata.mapper.ArticleMapper">
-    <select id="getPz" resultType="String">
+    <select id="getPz" resultType="java.lang.String">
         select distinct pz from article_guide
         <where>
             <if test="name != null and name != ''">

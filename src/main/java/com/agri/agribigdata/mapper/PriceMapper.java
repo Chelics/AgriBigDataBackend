@@ -1,23 +1,26 @@
-package com.agri.agribigdata.service;
+package com.agri.agribigdata.mapper;
 
 import com.agri.agribigdata.entity.bo.PriceBO;
+import com.agri.agribigdata.entity.po.PricePO;
 import com.agri.agribigdata.entity.query.MarketPriceQuery;
 import com.agri.agribigdata.entity.query.PriceTopQuery;
 import com.agri.agribigdata.entity.query.PzQuery;
 import com.agri.agribigdata.entity.vo.PriceTopFallVO;
 import com.agri.agribigdata.entity.vo.PriceTopRiseVO;
-import com.agri.agribigdata.entity.vo.PriceVO;
-
+import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
-public interface PriceService {
-    List<String> getMarketList(MarketPriceQuery marketPriceQuery);
+@Mapper
+public interface PriceMapper {
+    List<String> getMarketByPrvcAndName(MarketPriceQuery marketPriceQuery);
 
-    List<String> getPzList(PzQuery pzQuery);
+    List<String> getPz(PzQuery pzQuery);
 
     List<PriceTopRiseVO> getTopRise(PriceTopQuery priceTopQuery);
 
     List<PriceTopFallVO> getTopFall(PriceTopQuery priceTopQuery);
 
-    PriceVO getPrice(PriceBO priceBO);
+    List<PricePO> getPrice(PriceBO priceBO);
+
+    Integer getPriceCount(PriceBO priceBO);
 }

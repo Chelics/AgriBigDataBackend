@@ -30,4 +30,19 @@
         </where>
         limit #{pageSize} offset #{offset}
     </select>
+
+    <select id="getEnterpriseCount" resultType="java.lang.Integer">
+        select count(*) from enterprise
+        <where>
+            <if test="pz != null and pz != ''">
+                pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+            <if test="prvc != null and prvc != ''">
+                AND prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+            <if test="supplyType != null and supplyType != ''">
+                supplyType = #{supplyType}
+            </if>
+        </where>
+    </select>
 </mapper>
