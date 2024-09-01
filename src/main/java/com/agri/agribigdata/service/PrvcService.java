@@ -1,8 +1,7 @@
 package com.agri.agribigdata.service;
 
-import com.agri.agribigdata.entity.po.PrvcPO;
-import com.agri.agribigdata.entity.vo.PrvcVO;
+import java.util.List;
 
 public interface PrvcService {
-    PrvcVO getQuery(String name);
+    List<String> getQuery(String name);
 }

@@ -1,4 +1,5 @@
-package com.agri.agribigdata.entity.po;
+package com.agri.agribigdata.entity.query;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,7 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PrvcPO {
-    private String id;
+public class PrvcQuery {
     private String name;
 }
