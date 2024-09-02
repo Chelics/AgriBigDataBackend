@@ -70,7 +70,10 @@ public class UserServiceImpl implements UserService {
     public void loginWithVCode(UserVQuery userVQuery) throws CustomException {
         if(userVQuery.getEmail()!=null){
             UserBO userBO = userMapper.getByEmail(userVQuery);
-            if(!userBO.getVerifyCode().equals(userVQuery.getVcode())){
+            if(userBO==null){
+                throw new CustomException(404,"该邮箱未注册本系统");
+            }
+            if(!PasswordUtils.check(userVQuery.getVcode(),userBO.getVerifyCode())){
                 throw new CustomException(401,"验证码错误");
             }
             if(Duration.between(userBO.getVerifyTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), LocalDateTime.now()).toMinutes() > verifyConfig.getVerifyMinutes()){
@@ -86,7 +89,7 @@ public class UserServiceImpl implements UserService {
 
         Random random = new Random();
         Integer code = random.nextInt(89999) + 10000;
-        userMapper.updateVerifyInfo(code.toString(), LocalDateTime.now().toString(), to);
+        userMapper.updateVerifyInfo(PasswordUtils.encrypt(code.toString()), LocalDateTime.now().toString(), to);
         message.setSubject("【南山村网站】您的注册码");
         message.setText("您的验证码是: " + code +", 该验证码" + verifyConfig.getVerifyDescription() + "内有效, 请及时完成注册。若不是本人操作请忽略此邮件。");
         message.setFrom("agriBigData@163.com");
