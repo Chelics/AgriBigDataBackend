@@ -90,8 +90,8 @@ public class UserServiceImpl implements UserService {
         Random random = new Random();
         Integer code = random.nextInt(89999) + 10000;
         userMapper.updateVerifyInfo(PasswordUtils.encrypt(code.toString()), LocalDateTime.now().toString(), to);
-        message.setSubject("【南山村网站】您的注册码");
-        message.setText("您的验证码是: " + code +", 该验证码" + verifyConfig.getVerifyDescription() + "内有效, 请及时完成注册。若不是本人操作请忽略此邮件。");
+        message.setSubject("【南山村网站】您的验证码");
+        message.setText("您的验证码是: " + code +", 该验证码" + verifyConfig.getVerifyDescription() + "内有效, 请及时完成登录。若不是本人操作请忽略此邮件。");
         message.setFrom("agriBigData@163.com");
         message.setTo(to);
         javaMailSender.send(message);
