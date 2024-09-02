@@ -17,4 +17,10 @@ public class DataController {
     public ResultVO getAllData(){
         return ResultVO.success(dataService.getData());
     }
+
+    @GetMapping("supplyndemand")
+    public ResultVO getSupplyData(){
+        return ResultVO.success(dataService.getSupplyDate());
+    }
+
 }
