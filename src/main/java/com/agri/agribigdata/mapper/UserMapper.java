@@ -30,7 +30,7 @@ public interface UserMapper {
     @Select("select count(*) from user where email=#{email}")
     boolean checkDoubleEmail(UserBO userBO);
 
-    @Update("update user set prvc_id = #{prvcId} where id = #{userId}")
+    @Update("update user set prvc = #{prvcId} where id = #{userId}")
     void setPrcv(String userId, String prvcId);
 
     @Insert("insert into user_pz(user_id, pz) values (#{userId},#{pzId})")

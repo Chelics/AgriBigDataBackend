@@ -18,7 +18,7 @@ public class RegisterController {
     UserService userService;
 
     @PostMapping("/register")
-    public ResultVO register(@RequestBody UserRQuery userRQuery) throws CustomException {
+    public ResultVO register(@RequestBody UserRQuery userRQuery) throws Exception {
         if((userRQuery.getUsername() == null || userRQuery.getUsername() == "")|| (userRQuery.getPassword() == null || userRQuery.getPassword() == "")
                 || (userRQuery.getEmail() == null || userRQuery.getEmail() == "") && (userRQuery.getTel() == null || userRQuery.getTel() == "")) {
             return ResultVO.error(400, "必填项未填写完整");
