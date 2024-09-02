@@ -2,11 +2,10 @@ package com.agri.agribigdata.entity.bo;
 import com.agri.agribigdata.entity.query.UserRQuery;
 import com.agri.agribigdata.entity.query.UserVQuery;
 import com.agri.agribigdata.utils.PasswordUtils;
-import com.agri.agribigdata.utils.SnowflakeIdGenerator;
+import com.agri.agribigdata.utils.SnowflakeIdGeneratorUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
 
 import java.util.Date;
 
@@ -24,7 +23,7 @@ public class UserBO {
     private Date verifyTime;
 
     public static UserBO transferUserRQ2B(UserRQuery userRQuery) throws Exception{
-        SnowflakeIdGenerator idGenerator = new SnowflakeIdGenerator(1, 1); // 设置workerId和datacenterId
+        SnowflakeIdGeneratorUtils idGenerator = new SnowflakeIdGeneratorUtils(1, 1); // 设置workerId和datacenterId
         UserBO userBO = new UserBO();
         userBO.setId(idGenerator.generateStringId());
         userBO.setUsername(userRQuery.getUsername());

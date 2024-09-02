@@ -1,12 +1,12 @@
 package com.agri.agribigdata.utils;
 
-public class SnowflakeIdGenerator {
+public class SnowflakeIdGeneratorUtils {
     private final long workerId;
     private final long datacenterId;
     private long sequence = 0L;
     private long lastTimestamp = -1L;
 
-    public SnowflakeIdGenerator(long workerId, long datacenterId) {
+    public SnowflakeIdGeneratorUtils(long workerId, long datacenterId) {
         this.workerId = workerId;
         this.datacenterId = datacenterId;
     }

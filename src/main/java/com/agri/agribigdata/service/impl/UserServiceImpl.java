@@ -8,6 +8,7 @@ import com.agri.agribigdata.mapper.UserMapper;
 import com.agri.agribigdata.service.UserService;
 import com.agri.agribigdata.entity.bo.UserBO;
 import com.agri.agribigdata.entity.query.UserPQuery;
+import com.agri.agribigdata.utils.PasswordUtils;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserBO loginWithPassword(UserPQuery userPQuery) {
-        return userMapper.getByUsernameAndPassword(userPQuery);
+        return userMapper.getByUsername(userPQuery);
     }
 
     public void loginWithVCode(UserVQuery userVQuery) throws CustomException {

@@ -12,8 +12,8 @@ public interface UserMapper {
     @Insert("insert into user(id, username, password, tel, email) values (#{id}, #{username}, #{password}, #{tel}, #{email})")
     void register(UserBO userBO);
 
-    @Select("select * from user where username=#{username} and password=#{password}")
-    UserBO getByUsernameAndPassword(UserPQuery userPQuery) ;
+    @Select("select * from user where username=#{username}")
+    UserBO getByUsername(UserPQuery userPQuery) ;
 
     @Select("select * from user where email = #{email}")
     UserBO getByEmail(UserVQuery userVQuery);
