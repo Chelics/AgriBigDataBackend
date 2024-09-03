@@ -19,6 +19,9 @@ public interface UserService {
     void loginWithVCode(UserVQuery userVQuery) throws CustomException;
 
     void sendEmail(String to);
+    void sendSms(String tel);
 
     void setPersonal(PersonalQuery personalQuery) throws CustomException;
+
+
 }

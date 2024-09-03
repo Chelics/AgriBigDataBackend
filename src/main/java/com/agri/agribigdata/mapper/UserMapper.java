@@ -43,5 +43,8 @@ public interface UserMapper {
     void clearPersonalPz(String userId);
 
     @Update("update user set verify_code = #{code}, verify_time = #{time} where email = #{email}")
-    void updateVerifyInfo(String code, String time, String email);
+    void updateVerifyInfoByEmail(String code, String time, String email);
+
+    @Update("update user set verify_code = #{code}, verify_time = #{time} where tel = #{tel}")
+    void updateVerifyInfoByTel(String code, String time, String tel);
 }

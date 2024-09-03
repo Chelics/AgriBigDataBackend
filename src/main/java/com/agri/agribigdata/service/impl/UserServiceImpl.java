@@ -1,5 +1,7 @@
 package com.agri.agribigdata.service.impl;
 
+import cn.hutool.http.Header;
+import cn.hutool.http.HttpRequest;
 import com.agri.agribigdata.config.VerifyConfig;
 import com.agri.agribigdata.entity.query.PersonalQuery;
 import com.agri.agribigdata.entity.query.UserVQuery;
@@ -9,21 +11,18 @@ import com.agri.agribigdata.service.UserService;
 import com.agri.agribigdata.entity.bo.UserBO;
 import com.agri.agribigdata.entity.query.UserPQuery;
 import com.agri.agribigdata.utils.PasswordUtils;
+import com.agri.agribigdata.utils.VCodeUtils;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
-
 import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
-
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -68,28 +67,33 @@ public class UserServiceImpl implements UserService {
     }
 
     public void loginWithVCode(UserVQuery userVQuery) throws CustomException {
-        if(userVQuery.getEmail()!=null){
-            UserBO userBO = userMapper.getByEmail(userVQuery);
+        UserBO userBO = new UserBO();
+        if(userVQuery.getEmail()!=null && userVQuery.getEmail()!=""){
+            userBO = userMapper.getByEmail(userVQuery);
             if(userBO==null){
                 throw new CustomException(404,"该邮箱未注册本系统");
             }
-            if(!PasswordUtils.check(userVQuery.getVcode(),userBO.getVerifyCode())){
-                throw new CustomException(401,"验证码错误");
+        }
+        if(userVQuery.getTel()!=null && userVQuery.getTel()!=""){
+            userBO = userMapper.getByTel(userVQuery);
+            if(userBO==null){
+                throw new CustomException(404,"该手机号码未注册本系统");
             }
-            if(Duration.between(userBO.getVerifyTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), LocalDateTime.now()).toMinutes() > verifyConfig.getVerifyMinutes()){
-                throw new CustomException(401,"验证码已过期");
-            }
+        }
 
+        if(!PasswordUtils.check(userVQuery.getVcode(),userBO.getVerifyCode())){
+            throw new CustomException(401,"验证码错误");
+        }
+        if(Duration.between(userBO.getVerifyTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), LocalDateTime.now()).toMinutes() > verifyConfig.getVerifyMinutes()){
+            throw new CustomException(401,"验证码已过期");
         }
     }
 
     @Override
     public void sendEmail(String to) {
         SimpleMailMessage message = new SimpleMailMessage();
-
-        Random random = new Random();
-        Integer code = random.nextInt(89999) + 10000;
-        userMapper.updateVerifyInfo(PasswordUtils.encrypt(code.toString()), LocalDateTime.now().toString(), to);
+        Integer code = VCodeUtils.VCodeGenerator();
+        userMapper.updateVerifyInfoByEmail(PasswordUtils.encrypt(code.toString()), LocalDateTime.now().toString(), to);
         message.setSubject("【南山村网站】您的验证码");
         message.setText("您的验证码是: " + code +", 该验证码" + verifyConfig.getVerifyDescription() + "内有效, 请及时完成登录。若不是本人操作请忽略此邮件。");
         message.setFrom("agriBigData@163.com");
@@ -97,6 +101,33 @@ public class UserServiceImpl implements UserService {
         javaMailSender.send(message);
     }
 
+    @Override
+    public void sendSms(String tel) {
+        //验证码
+        String content = "code:" + VCodeUtils.VCodeGenerator().toString();
+        //模板ID。（联系客服申请。测试ID请用：908e94ccf08b4476ba6c876d13f084ad，短信内容为 { 验证码：**code**，**minute**分钟内有效，请勿泄漏于他人！}）
+        String templateId="CST_ptdie100";
+        //应用code
+        String appCode="39a5cc01d43246c98e866f417f0a0d80";
+
+        //请求连接
+        String host = "https://dfsns.market.alicloudapi.com/data/send_sms";
+        //拼装请求体
+        Map<String, Object> querys = new HashMap<String, Object>();
+        querys.put("content", content);
+        querys.put("phone_number", tel);
+        querys.put("template_id", templateId);
+
+        userMapper.updateVerifyInfoByTel(PasswordUtils.encrypt(content.split(":")[1].trim()), LocalDateTime.now().toString(), tel);
+
+        String result = HttpRequest.post(host)
+                .header(Header.AUTHORIZATION, "APPCODE " + appCode)//头信息，多个头信息多次调用此方法即可
+                .form(querys)//表单内容
+                .timeout(20000)//超时，毫秒
+                .execute().body();
+        System.out.println(result);
+
+    }
 
     @Override
     public void setPersonal(PersonalQuery personalQuery) throws CustomException {

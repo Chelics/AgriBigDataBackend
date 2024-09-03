@@ -39,16 +39,21 @@ public class LoginController {
 
     @PostMapping("/login/sendvcode")
     public ResultVO sendVCode(@RequestBody UserVQuery userVQuery) throws CustomException{
-        if(userVQuery.getTel()==null && userVQuery.getEmail()==null){
+        if((userVQuery.getTel()==null || userVQuery.getTel()=="") && (userVQuery.getEmail()==null || userVQuery.getEmail()!="")){
             throw new CustomException(401, "邮箱和电话号码至少要填写一个");
         }
-        if(userVQuery.getEmail()!=null && userService.isDuplicatedEmail(UserBO.transferUserVQ2B(userVQuery))==false){
+        if(userVQuery.getEmail()!=null && userVQuery.getEmail()!="" && userService.isDuplicatedEmail(UserBO.transferUserVQ2B(userVQuery))==false){
             throw new CustomException(404, "该邮箱未注册用户");
         }
-        if(userVQuery.getTel()!=null && userService.isDuplicatedTel(UserBO.transferUserVQ2B(userVQuery))==false){
+        if(userVQuery.getTel()!=null &&userVQuery.getTel()!="" && userService.isDuplicatedTel(UserBO.transferUserVQ2B(userVQuery))==false){
             throw new CustomException(404, "该手机号未注册用户");
         }
-        userService.sendEmail(userVQuery.getEmail());
+        if(userVQuery.getEmail()!=null && userVQuery.getEmail()!=""){
+            userService.sendEmail(userVQuery.getEmail());
+        }
+        if(userVQuery.getTel()!=null && userVQuery.getTel()!=""){
+            userService.sendSms(userVQuery.getTel());
+        }
         return ResultVO.success();
     }
 
