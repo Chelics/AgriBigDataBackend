@@ -35,11 +35,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void register(UserBO userBO) throws CustomException {
         if(isDuplicatedUsername(userBO)){
-            throw new CustomException(400,"重复的用户名");
+            throw new CustomException(400, String.format("重复的用户名%s",userBO.getUsername()), "该用户名已注册过本系统");
         }else if(isDuplicatedTel(userBO)){
-            throw new CustomException(400,"该电话号码已注册过本系统, 不可重复注册");
+            throw new CustomException(400, String.format("重复的电话号码%s",userBO.getTel()), "该电话号码已注册过本系统, 不可重复注册");
         }else if(isDuplicatedEmail(userBO)){
-            throw new CustomException(400,"该邮箱已注册过本系统, 不可重复注册");
+            throw new CustomException(400, String.format("重复的邮箱%s", userBO.getEmail()), "该邮箱已注册过本系统, 不可重复注册");
         }else{
             userMapper.register(userBO);
         }
@@ -71,22 +71,29 @@ public class UserServiceImpl implements UserService {
         if(userVQuery.getEmail()!=null && userVQuery.getEmail()!=""){
             userBO = userMapper.getByEmail(userVQuery);
             if(userBO==null){
-                throw new CustomException(404,"该邮箱未注册本系统");
+                throw new CustomException(404, String.format("未注册的邮箱%s尝试登录", userVQuery.getEmail()), "该邮箱未注册本系统");
             }
-        }
+            if(!PasswordUtils.check(userVQuery.getVcode(),userBO.getVerifyCode())){
+                throw new CustomException(401,String.format("%s尝试登录, 但验证码错误", userVQuery.getEmail()), "验证码错误");
+            }
+            if(Duration.between(userBO.getVerifyTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), LocalDateTime.now()).toMinutes() > verifyConfig.getVerifyMinutes()){
+                throw new CustomException(401,String.format("%s尝试登录, 但验证码错误", userVQuery.getEmail()), "验证码已过期");
+            }
+            }
+
         if(userVQuery.getTel()!=null && userVQuery.getTel()!=""){
             userBO = userMapper.getByTel(userVQuery);
             if(userBO==null){
-                throw new CustomException(404,"该手机号码未注册本系统");
+                throw new CustomException(404,String.format("未注册的手机号码%s尝试登录", userVQuery.getTel()), "该手机号码未注册本系统");
+            }
+            if(!PasswordUtils.check(userVQuery.getVcode(),userBO.getVerifyCode())){
+                throw new CustomException(401,String.format("%s尝试登录, 但验证码错误", userVQuery.getTel()), "验证码错误");
+            }
+            if(Duration.between(userBO.getVerifyTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), LocalDateTime.now()).toMinutes() > verifyConfig.getVerifyMinutes()){
+                throw new CustomException(401,String.format("%s尝试登录, 但验证码错误", userVQuery.getTel()), "验证码已过期");
             }
         }
 
-        if(!PasswordUtils.check(userVQuery.getVcode(),userBO.getVerifyCode())){
-            throw new CustomException(401,"验证码错误");
-        }
-        if(Duration.between(userBO.getVerifyTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), LocalDateTime.now()).toMinutes() > verifyConfig.getVerifyMinutes()){
-            throw new CustomException(401,"验证码已过期");
-        }
     }
 
     @Override

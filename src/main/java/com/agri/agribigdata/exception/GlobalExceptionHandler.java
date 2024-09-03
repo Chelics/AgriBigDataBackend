@@ -18,8 +18,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     public ResultVO ex(CustomException ce){
-        log.error("捕获到异常: ",ce);
-        return ResultVO.error(ce.getCode(), ce.getMessage());
+        if(ce.getCode()==500){
+            log.error("捕获到异常: ",ce);
+        }else{
+            log.warn("捕获到异常: {}",ce.getMessage());
+        }
+        return ResultVO.error(ce.getCode(), ce.getMsgToFront());
     }
 
 }
