@@ -1,5 +1,6 @@
 package com.agri.agribigdata.service;
 
+import com.agri.agribigdata.entity.bo.ArticleGuideBO;
 import com.agri.agribigdata.entity.query.ArticleGuideQuery;
 import com.agri.agribigdata.entity.query.ArticleNewsQuery;
 import com.agri.agribigdata.entity.query.PzQuery;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface ArticleService {
     List<String> getPzForArticle(PzQuery pzQuery);
 
-    List<ArticleGuideVO> getGuideArticle(ArticleGuideQuery articleGuideQuery);
+    List<ArticleGuideVO> getGuideArticle(ArticleGuideQuery articleGuideQuery) throws Exception;
 
     List<ArticleNewsVO> getNewsArticle(ArticleNewsQuery articleNewsQuery);
 }

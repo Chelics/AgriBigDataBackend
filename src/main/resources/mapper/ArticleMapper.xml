@@ -12,7 +12,7 @@
         </where>
     </select>
 
-    <select id="getGuideArticle" resultType="com.agri.agribigdata.entity.vo.ArticleGuideVO">
+    <select id="getGuideArticle" resultType="com.agri.agribigdata.entity.bo.ArticleGuideBO">
         select * from article_guide
         <where>
             <if test="pz != null and pz != ''">

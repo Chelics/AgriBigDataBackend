@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnterprisePO {
+    private String name;
     private String prvc;
     private String pz;
     private String supplyType;

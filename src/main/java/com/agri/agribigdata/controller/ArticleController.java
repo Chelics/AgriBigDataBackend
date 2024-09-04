@@ -7,12 +7,14 @@ import com.agri.agribigdata.entity.vo.ResultVO;
 import com.agri.agribigdata.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@CrossOrigin
 public class ArticleController {
     @Autowired
     ArticleService articleService;
@@ -23,7 +25,7 @@ public class ArticleController {
     }
 
     @PostMapping("/article/guide")
-    public ResultVO getGuideArticle(@RequestBody ArticleGuideQuery articleGuideQuery){
+    public ResultVO getGuideArticle(@RequestBody ArticleGuideQuery articleGuideQuery) throws Exception {
         return ResultVO.success(articleService.getGuideArticle(articleGuideQuery));
     }
 

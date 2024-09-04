@@ -1,5 +1,6 @@
 package com.agri.agribigdata.mapper;
 
+import com.agri.agribigdata.entity.bo.ArticleGuideBO;
 import com.agri.agribigdata.entity.query.ArticleGuideQuery;
 import com.agri.agribigdata.entity.query.ArticleNewsQuery;
 import com.agri.agribigdata.entity.vo.ArticleGuideVO;
@@ -12,7 +13,7 @@ public interface ArticleMapper {
 
     List<String> getPz(String name);
 
-    List<ArticleGuideVO> getGuideArticle(ArticleGuideQuery articleGuideQuery);
+    List<ArticleGuideBO> getGuideArticle(ArticleGuideQuery articleGuideQuery);
 
     List<ArticleNewsVO> getNewsArticle(ArticleNewsQuery articleNewsQuery);
 }
