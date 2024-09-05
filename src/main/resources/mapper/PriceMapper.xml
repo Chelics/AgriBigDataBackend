@@ -118,7 +118,16 @@
                 AND pz LIKE CONCAT('%', #{pz}, '%')
             </if>
         </where>
-        limit 1
+        union
+        select * from price_market_predict
+        <where>
+            <if test="prvc != null and prvc != ''">
+                prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+            <if test="pz != null and pz != ''">
+                AND pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+        </where>
     </select>
 
     <select id="getPerPzTodayNational" resultType="com.agri.agribigdata.entity.po.PricePerPzTodayPO">
@@ -157,6 +166,19 @@
                  </foreach>
             </if>
         </where>
+        union
+        select * from price_market_predict
+        <where>
+            <if test="market != null and market != ''">
+                market LIKE CONCAT('%', #{market}, '%')
+            </if>
+            <if test="pzList != null and pzList.size()>0">
+                AND pz in
+                <foreach item="singlePz" collection="pzList" open="(" separator="," close=")">
+                    #{singlePz}
+                </foreach>
+            </if>
+        </where>
     </select>
 
     <select id="getPerMarketWeekPrice" resultType="com.agri.agribigdata.entity.po.PricePerMarketWeekPO">
@@ -191,6 +213,19 @@
 
     <select id="getPriceByMarketList" resultType="com.agri.agribigdata.entity.po.PricePO">
         select * from price_market
+        <where>
+            <if test="pz != null and pz != ''">
+                pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+            <if test="marketList != null and marketList.size()>0">
+                AND market in
+                <foreach item="singleMarket" collection="marketList" open="(" separator="," close=")">
+                    #{singleMarket}
+                </foreach>
+            </if>
+        </where>
+        union
+        select * from price_market_predict
         <where>
             <if test="pz != null and pz != ''">
                 pz LIKE CONCAT('%', #{pz}, '%')
