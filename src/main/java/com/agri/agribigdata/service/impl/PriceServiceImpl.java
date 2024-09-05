@@ -42,13 +42,13 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public IndexVO getTwoIndex() {
-        return priceMapper.getTwoIndex();
+    public List<IndexVO> getTwoIndex() {
+        return IndexVO.transferIndexP2V(priceMapper.getTwoIndex());
     }
 
     @Override
-    public IndexVO getHbIndex() {
-        return priceMapper.getHbIndex();
+    public List<IndexVO> getHbIndex() {
+        return IndexVO.transferIndexP2V(priceMapper.getHbIndex());
     }
 
     @Override

@@ -1,9 +1,9 @@
 package com.agri.agribigdata.service;
 
 import com.agri.agribigdata.entity.bo.PriceBO;
+import com.agri.agribigdata.entity.po.IndexPO;
 import com.agri.agribigdata.entity.query.*;
 import com.agri.agribigdata.entity.vo.*;
-import com.agri.agribigdata.exception.CustomException;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ public interface PriceService {
 
     PriceVO getPrice(PriceBO priceBO);
 
-    IndexVO getTwoIndex();
+    List<IndexVO> getTwoIndex();
 
-    IndexVO getHbIndex();
+    List<IndexVO> getHbIndex();
 
     PricePartialVO getSinglePzPartialPrice(PricePartialQuery pricePartialQuery);
 

@@ -96,15 +96,42 @@
     </select>
 
     <select id="getPerPzWeekPartialHL" resultType="com.agri.agribigdata.entity.po.PricePerPzWeekPO">
-        select * from per_pz_week where prvc like CONCAT('%',#{prvc},'%') and pz like CONCAT('%',#{pz},'%') limit 1
+        select * from per_pz_week
+        <where>
+            <if test="prvc != null and prvc != ''">
+            prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+            <if test="pz != null and pz != ''">
+            AND pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+        </where>
+        limit 1
     </select>
 
     <select id="getPriceByPz" resultType="com.agri.agribigdata.entity.po.PricePO">
-        select * from price_market where pz like CONCAT('%', #{pz},'%') and prvc like CONCAT('%',#{prvc},'%') limit 1
+        select * from price_market
+        <where>
+            <if test="prvc != null and prvc != ''">
+                prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+            <if test="pz != null and pz != ''">
+                AND pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+        </where>
+        limit 1
     </select>
 
     <select id="getPerPzTodayNational" resultType="com.agri.agribigdata.entity.po.PricePerPzTodayPO">
-        select * from per_pz_today where prvc like CONCAT('%',#{prvc},'%') and pz like CONCAT('%', #{pz},'%') limit 1
+        select * from per_pz_today
+        <where>
+            <if test="prvc != null and prvc != ''">
+                prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+            <if test="pz != null and pz != ''">
+                AND pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+        </where>
+        limit 1
     </select>
 
     <select id="getPerMarketTodayPrice" resultType="com.agri.agribigdata.entity.po.PricePerMarketTodayPO">

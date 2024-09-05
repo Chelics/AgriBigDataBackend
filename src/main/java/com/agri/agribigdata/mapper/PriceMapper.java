@@ -25,11 +25,11 @@ public interface PriceMapper {
 
     Integer getPriceCount(PriceBO priceBO);
 
-    @Select("select * from price_index where type = 2")
-    IndexVO getTwoIndex();
+    @Select("select * from price_index where index_type = 2")
+    List<IndexPO> getTwoIndex();
 
-    @Select("select * from price_index where type = 1")
-    IndexVO getHbIndex();
+    @Select("select * from price_index where index_type = 1")
+    List<IndexPO> getHbIndex();
 
 
     PricePerPzTodayPO getPerPzTodayNational(PricePartialQuery pricePartialQuery);
