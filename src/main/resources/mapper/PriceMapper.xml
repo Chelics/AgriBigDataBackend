@@ -17,10 +17,16 @@
     </select>
 
     <select id="getPz" resultType="java.lang.String">
-        select * from pz
+        select distinct pz from price_market
         <where>
             <if test="name != null and name != ''">
-                name LIKE CONCAT('%', #{name}, '%')
+                pz LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="prvc != null and prvc != ''">
+                AND prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+            <if test="market != null and market != ''">
+                AND market LIKE CONCAT('%', #{market}, '%')
             </if>
         </where>
     </select>

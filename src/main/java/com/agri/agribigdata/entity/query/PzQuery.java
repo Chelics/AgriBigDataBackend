@@ -8,4 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PzQuery {
     private String name;
+    private String prvc;
+    private String market;
 }
