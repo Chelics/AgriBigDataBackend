@@ -12,9 +12,9 @@ public class PricePO {
     private String market;
     private String prvc;
     private String pz;
-    private Double highest;
-    private Double lowest;
-    private Double average;
+    private double highest;
+    private double lowest;
+    private double average;
     private String releaseTime;
 
 }

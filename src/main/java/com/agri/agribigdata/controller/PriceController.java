@@ -1,11 +1,9 @@
 package com.agri.agribigdata.controller;
 
 import com.agri.agribigdata.entity.bo.PriceBO;
-import com.agri.agribigdata.entity.query.MarketPriceQuery;
-import com.agri.agribigdata.entity.query.PriceQuery;
-import com.agri.agribigdata.entity.query.PriceTopQuery;
-import com.agri.agribigdata.entity.query.PzQuery;
+import com.agri.agribigdata.entity.query.*;
 import com.agri.agribigdata.entity.vo.ResultVO;
+import com.agri.agribigdata.exception.CustomException;
 import com.agri.agribigdata.service.PriceService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +54,20 @@ public class PriceController {
     @GetMapping("/price/hbindex")
     public ResultVO getHbIndex(){
         return ResultVO.success(priceService.getHbIndex());
+    }
+
+    @PostMapping("/price/partial")
+    public ResultVO getSinglePartialPrice(@RequestBody PricePartialQuery pricePartialQuery){
+        return ResultVO.success(priceService.getSinglePzPartialPrice(pricePartialQuery));
+    }
+
+    @PostMapping("/price/singlemarket")
+    public ResultVO getSingleMarketPrice(@RequestBody PriceSingleMarketQuery priceSingleMarketQuery){
+        return ResultVO.success(priceService.getSingleMarketPrice(priceSingleMarketQuery));
+    }
+
+    @PostMapping("/price/singlepz")
+    public ResultVO getSinglePzPrice(@RequestBody PriceSinglePzQuery priceSinglePzQuery){
+        return ResultVO.success(priceService.getSinglePzPrice(priceSinglePzQuery));
     }
 }

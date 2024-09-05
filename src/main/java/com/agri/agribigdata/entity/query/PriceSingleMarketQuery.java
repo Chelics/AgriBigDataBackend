@@ -4,15 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PriceQuery {
-    private String pz;
+public class PriceSingleMarketQuery {
     private String market;
-    private String prvc;
-    private String startDate;
-    private String endDate;
-    private Integer pageSize = 10;
-    private Integer pageNum = 1;
+    private List<String> pzList;
 }

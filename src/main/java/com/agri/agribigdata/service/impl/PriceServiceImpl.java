@@ -1,13 +1,9 @@
 package com.agri.agribigdata.service.impl;
 
 import com.agri.agribigdata.entity.bo.PriceBO;
-import com.agri.agribigdata.entity.query.MarketPriceQuery;
-import com.agri.agribigdata.entity.query.PriceTopQuery;
-import com.agri.agribigdata.entity.query.PzQuery;
-import com.agri.agribigdata.entity.vo.IndexVO;
-import com.agri.agribigdata.entity.vo.PriceTopFallVO;
-import com.agri.agribigdata.entity.vo.PriceTopRiseVO;
-import com.agri.agribigdata.entity.vo.PriceVO;
+import com.agri.agribigdata.entity.po.*;
+import com.agri.agribigdata.entity.query.*;
+import com.agri.agribigdata.entity.vo.*;
 import com.agri.agribigdata.mapper.PriceMapper;
 import com.agri.agribigdata.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +38,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public PriceVO getPrice(PriceBO priceBO) {
-        return new PriceVO(priceMapper.getPrice(priceBO), priceMapper.getPriceCount(priceBO));
+        return new PriceVO(priceMapper.getPriceByPriceBO(priceBO), priceMapper.getPriceCount(priceBO));
     }
 
     @Override
@@ -53,5 +49,29 @@ public class PriceServiceImpl implements PriceService {
     @Override
     public IndexVO getHbIndex() {
         return priceMapper.getHbIndex();
+    }
+
+    @Override
+    public PricePartialVO getSinglePzPartialPrice(PricePartialQuery pricePartialQuery){
+        PricePerPzWeekPO pricePerPzWeekPO = priceMapper.getPerPzWeekPartialHL(pricePartialQuery);
+        List<PricePO> pricePOList = priceMapper.getPriceByPz(pricePartialQuery);
+        PricePartialVO pricePartialVO = PricePartialVO.transfer(pricePerPzWeekPO,pricePOList);
+        return pricePartialVO;
+    }
+
+    @Override
+    public PriceSingleMarketVO getSingleMarketPrice(PriceSingleMarketQuery priceSingleMarketQuery) {
+        PricePerMarketTodayPO pricePerMarketTodayPO = priceMapper.getPerMarketTodayPrice(priceSingleMarketQuery);
+        PricePerMarketWeekPO pricePerMarketWeekPO = priceMapper.getPerMarketWeekPrice(priceSingleMarketQuery);
+        List<PricePO> pricePOList = priceMapper.getPriceByPzList(priceSingleMarketQuery);
+        return PriceSingleMarketVO.transfer(pricePerMarketTodayPO,pricePerMarketWeekPO,pricePOList);
+    }
+
+    @Override
+    public PriceSinglePzVO getSinglePzPrice(PriceSinglePzQuery priceSinglePzQuery) {
+        PricePerPzTodayPO pricePerPzTodayPO = priceMapper.getPerPzTodayPrice(priceSinglePzQuery);
+        PricePerPzWeekPO pricePerPzWeekPO = priceMapper.getPerPzWeekPrice(priceSinglePzQuery);
+        List<PricePO> pricePOList = priceMapper.getPriceByMarketList(priceSinglePzQuery);
+        return PriceSinglePzVO.transfer(pricePerPzTodayPO, pricePerPzWeekPO, pricePOList);
     }
 }

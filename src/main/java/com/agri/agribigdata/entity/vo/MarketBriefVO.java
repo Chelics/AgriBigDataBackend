@@ -16,7 +16,6 @@ public class MarketBriefVO {
     private String prvc;
     private String unitType;
     private String addr;
-    private String entryDate;
     private String openingDate;
     private String manager;
     private String managerPhone;

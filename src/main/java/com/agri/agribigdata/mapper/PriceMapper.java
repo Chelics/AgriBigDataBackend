@@ -1,13 +1,9 @@
 package com.agri.agribigdata.mapper;
 
 import com.agri.agribigdata.entity.bo.PriceBO;
-import com.agri.agribigdata.entity.po.PricePO;
-import com.agri.agribigdata.entity.query.MarketPriceQuery;
-import com.agri.agribigdata.entity.query.PriceTopQuery;
-import com.agri.agribigdata.entity.query.PzQuery;
-import com.agri.agribigdata.entity.vo.IndexVO;
-import com.agri.agribigdata.entity.vo.PriceTopFallVO;
-import com.agri.agribigdata.entity.vo.PriceTopRiseVO;
+import com.agri.agribigdata.entity.po.*;
+import com.agri.agribigdata.entity.query.*;
+import com.agri.agribigdata.entity.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -23,7 +19,9 @@ public interface PriceMapper {
 
     List<PriceTopFallVO> getTopFall(PriceTopQuery priceTopQuery);
 
-    List<PricePO> getPrice(PriceBO priceBO);
+    List<PricePO> getPriceByPriceBO(PriceBO priceBO);
+
+    List<PricePO> getPriceByPz(PricePartialQuery pricePartialQuery);
 
     Integer getPriceCount(PriceBO priceBO);
 
@@ -32,4 +30,20 @@ public interface PriceMapper {
 
     @Select("select * from price_index where type = 1")
     IndexVO getHbIndex();
+
+
+    PricePerPzTodayPO getPerPzTodayNational(PricePartialQuery pricePartialQuery);
+    PricePerPzWeekPO getPerPzWeekPartialHL(PricePartialQuery pricePartialQuery);
+
+    PricePerMarketTodayPO getPerMarketTodayPrice(PriceSingleMarketQuery priceSingleMarketQuery);
+
+    List<PricePO> getPriceByPzList(PriceSingleMarketQuery priceSingleMarketQuery);
+
+    PricePerMarketWeekPO getPerMarketWeekPrice(PriceSingleMarketQuery priceSingleMarketQuery);
+
+    PricePerPzTodayPO getPerPzTodayPrice(PriceSinglePzQuery priceSinglePzQuery);
+
+    PricePerPzWeekPO getPerPzWeekPrice(PriceSinglePzQuery priceSinglePzQuery);
+
+    List<PricePO> getPriceByMarketList(PriceSinglePzQuery priceSinglePzQuery);
 }

@@ -45,7 +45,7 @@
         order by fall DESC
     </select>
 
-    <select id="getPrice" resultType="com.agri.agribigdata.entity.po.PricePO">
+    <select id="getPriceByPriceBO" resultType="com.agri.agribigdata.entity.po.PricePO">
         select * from price_market
         <where>
             <if test="pz != null and pz != ''">
@@ -85,6 +85,88 @@
             </if>
             <if test="endDate != null and endDate != ''">
                 AND #{endDate} >= release_time
+            </if>
+        </where>
+    </select>
+
+    <select id="getPerPzWeekPartialHL" resultType="com.agri.agribigdata.entity.po.PricePerPzWeekPO">
+        select * from per_pz_week where prvc like CONCAT('%',#{prvc},'%') and pz like CONCAT('%',#{pz},'%') limit 1
+    </select>
+
+    <select id="getPriceByPz" resultType="com.agri.agribigdata.entity.po.PricePO">
+        select * from price_market where pz like CONCAT('%', #{pz},'%') and prvc like CONCAT('%',#{prvc},'%') limit 1
+    </select>
+
+    <select id="getPerPzTodayNational" resultType="com.agri.agribigdata.entity.po.PricePerPzTodayPO">
+        select * from per_pz_today where prvc like CONCAT('%',#{prvc},'%') and pz like CONCAT('%', #{pz},'%') limit 1
+    </select>
+
+    <select id="getPerMarketTodayPrice" resultType="com.agri.agribigdata.entity.po.PricePerMarketTodayPO">
+        select * from per_market_today
+        <where>
+            <if test="market != null and market != ''">
+                market LIKE CONCAT('%', #{market}, '%')
+            </if>
+        </where>
+        limit 1
+    </select>
+
+    <select id="getPriceByPzList" resultType="com.agri.agribigdata.entity.po.PricePO">
+        select * from price_market
+        <where>
+            <if test="market != null and market != ''">
+                market LIKE CONCAT('%', #{market}, '%')
+            </if>
+            <if test="pzList != null and pzList.size()>0">
+                AND pz in
+                 <foreach item="singlePz" collection="pzList" open="(" separator="," close=")">
+                     #{singlePz}
+                 </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="getPerMarketWeekPrice" resultType="com.agri.agribigdata.entity.po.PricePerMarketWeekPO">
+        select * from per_market_week
+        <where>
+            <if test="market != null and market != ''">
+                market LIKE CONCAT('%', #{market}, '%')
+            </if>
+        </where>
+        limit 1
+    </select>
+
+    <select id="getPerPzTodayPrice" resultType="com.agri.agribigdata.entity.po.PricePerPzTodayPO">
+        select * from per_pz_today
+        <where>
+            <if test="pz != null and pz != ''">
+                pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+        </where>
+        limit 1
+    </select>
+
+    <select id="getPerPzWeekPrice" resultType="com.agri.agribigdata.entity.po.PricePerPzWeekPO">
+        select * from per_pz_week
+        <where>
+            <if test="pz != null and pz != ''">
+                pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+        </where>
+        limit 1
+    </select>
+
+    <select id="getPriceByMarketList" resultType="com.agri.agribigdata.entity.po.PricePO">
+        select * from price_market
+        <where>
+            <if test="pz != null and pz != ''">
+                pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+            <if test="marketList != null and marketList.size()>0">
+                AND market in
+                <foreach item="singleMarket" collection="marketList" open="(" separator="," close=")">
+                    #{singleMarket}
+                </foreach>
             </if>
         </where>
     </select>
