@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class PriceAvgBO {
     private double average;
     private String releaseTime;
+    private String prvc;
 }

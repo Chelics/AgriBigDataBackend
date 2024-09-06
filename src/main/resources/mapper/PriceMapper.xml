@@ -34,23 +34,21 @@
     <select id="getTopRise" resultType="com.agri.agribigdata.entity.vo.PriceTopRiseVO">
         select * from price_rise
         <where>
-            release_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
             <if test="prvc != null and prvc != ''">
-                AND prvc LIKE CONCAT('%', #{prvc}, '%')
+               prvc LIKE CONCAT('%', #{prvc}, '%')
             </if>
         </where>
         order by rise ASC
     </select>
 
     <select id="getTopFall" resultType="com.agri.agribigdata.entity.vo.PriceTopFallVO">
-        select * from price_fall
+        select prvc, pz, price, fall_value as fall, release_date from price_fall
         <where>
-            release_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
             <if test="prvc != null and prvc != ''">
-                AND prvc LIKE CONCAT('%', #{prvc}, '%')
+               prvc LIKE CONCAT('%', #{prvc}, '%')
             </if>
         </where>
-        order by fall ASC
+        order by fall_value ASC
     </select>
 
     <select id="getPriceByPriceBO" resultType="com.agri.agribigdata.entity.po.PricePO">

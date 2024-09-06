@@ -4,6 +4,7 @@ import com.agri.agribigdata.entity.bo.PriceBO;
 import com.agri.agribigdata.entity.po.IndexPO;
 import com.agri.agribigdata.entity.query.*;
 import com.agri.agribigdata.entity.vo.*;
+import com.agri.agribigdata.exception.CustomException;
 
 import java.util.List;
 
@@ -22,9 +23,9 @@ public interface PriceService {
 
     List<IndexVO> getHbIndex();
 
-    PricePartialVO getSinglePzPartialPrice(PricePartialQuery pricePartialQuery);
+    PricePartialVO getSinglePzPartialPrice(PricePartialQuery pricePartialQuery) throws CustomException;
 
-    PriceSingleMarketVO getSingleMarketPrice(PriceSingleMarketQuery priceSingleMarketQuery);
+    PriceSingleMarketVO getSingleMarketPrice(PriceSingleMarketQuery priceSingleMarketQuery) throws CustomException;
 
-    PriceSinglePzVO getSinglePzPrice(PriceSinglePzQuery priceSinglePzQuery);
+    PriceSinglePzVO getSinglePzPrice(PriceSinglePzQuery priceSinglePzQuery) throws CustomException;
 }

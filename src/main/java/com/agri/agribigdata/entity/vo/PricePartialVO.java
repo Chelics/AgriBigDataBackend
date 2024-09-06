@@ -1,6 +1,7 @@
 package com.agri.agribigdata.entity.vo;
 
 import com.agri.agribigdata.entity.bo.PriceAvgBO;
+import com.agri.agribigdata.entity.bo.PricePartialAvgBO;
 import com.agri.agribigdata.entity.bo.PricePartialHBO;
 import com.agri.agribigdata.entity.bo.PricePartialLBO;
 import com.agri.agribigdata.entity.po.PricePO;
@@ -18,7 +19,7 @@ import java.util.List;
 public class PricePartialVO {
     private PricePartialHBO highestInfo;
     private PricePartialLBO lowestInfo;
-    private List<PriceAvgBO> averageInfo;
+    private List<PricePartialAvgBO> averageInfo;
 
     public static PricePartialVO transfer(PricePerPzWeekPO pricePerPzWeekPO,List<PricePO> pricePOS){
         PricePartialVO pricePartialVO = new PricePartialVO();
@@ -30,14 +31,17 @@ public class PricePartialVO {
         pricePartialVO.lowestInfo.setLowest(pricePerPzWeekPO.getMinPrice());
         pricePartialVO.lowestInfo.setMarket(pricePerPzWeekPO.getMinMarket());
         pricePartialVO.lowestInfo.setReleaseTime(pricePerPzWeekPO.getMinDate());
+
         List<PriceAvgBO> priceAvgBOArrayList= new ArrayList<>();
         for (PricePO pricePO : pricePOS) {
             PriceAvgBO priceAvgBO = new PriceAvgBO();
             priceAvgBO.setAverage(pricePO.getAverage());
             priceAvgBO.setReleaseTime(pricePO.getReleaseTime());
+            priceAvgBO.setPrvc(pricePO.getPrvc());
             priceAvgBOArrayList.add(priceAvgBO);
         }
-        pricePartialVO.averageInfo = priceAvgBOArrayList;
+
+        pricePartialVO.averageInfo = PricePartialAvgBO.transfer(priceAvgBOArrayList);
         return pricePartialVO;
     }
 }

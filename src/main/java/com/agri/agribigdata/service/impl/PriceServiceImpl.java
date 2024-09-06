@@ -4,6 +4,7 @@ import com.agri.agribigdata.entity.bo.PriceBO;
 import com.agri.agribigdata.entity.po.*;
 import com.agri.agribigdata.entity.query.*;
 import com.agri.agribigdata.entity.vo.*;
+import com.agri.agribigdata.exception.CustomException;
 import com.agri.agribigdata.mapper.PriceMapper;
 import com.agri.agribigdata.service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,26 +53,50 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public PricePartialVO getSinglePzPartialPrice(PricePartialQuery pricePartialQuery){
+    public PricePartialVO getSinglePzPartialPrice(PricePartialQuery pricePartialQuery) throws CustomException {
         PricePerPzWeekPO pricePerPzWeekPO = priceMapper.getPerPzWeekPartialHL(pricePartialQuery);
         List<PricePO> pricePOList = priceMapper.getPriceByPz(pricePartialQuery);
+        if(pricePerPzWeekPO==null){
+            throw new CustomException(404,String.format("品种%s在地区%s无今日价格信息",pricePartialQuery.getPz(),pricePartialQuery.getPrvc()),"所选品种在相应地区无综合价格信息");
+        }
+        if(pricePOList.size()==0){
+            throw new CustomException(404,String.format("品种%s在地区%s无今日价格信息",pricePartialQuery.getPz(),pricePartialQuery.getPrvc()),"所选品种在相应地区无价格信息");
+        }
         PricePartialVO pricePartialVO = PricePartialVO.transfer(pricePerPzWeekPO,pricePOList);
         return pricePartialVO;
     }
 
     @Override
-    public PriceSingleMarketVO getSingleMarketPrice(PriceSingleMarketQuery priceSingleMarketQuery) {
+    public PriceSingleMarketVO getSingleMarketPrice(PriceSingleMarketQuery priceSingleMarketQuery) throws CustomException {
         PricePerMarketTodayPO pricePerMarketTodayPO = priceMapper.getPerMarketTodayPrice(priceSingleMarketQuery);
         PricePerMarketWeekPO pricePerMarketWeekPO = priceMapper.getPerMarketWeekPrice(priceSingleMarketQuery);
         List<PricePO> pricePOList = priceMapper.getPriceByPzList(priceSingleMarketQuery);
+        if(pricePerMarketTodayPO==null){
+            throw new CustomException(404,String.format("市场%s无今日价格信息",priceSingleMarketQuery.getMarket()),"所选市场无今日价格信息");
+        }
+        if(pricePerMarketWeekPO==null){
+            throw new CustomException(404,String.format("市场%s无本周价格信息",priceSingleMarketQuery.getMarket()),"所选市场无本周价格信息");
+        }
+        if(pricePOList.size()==0){
+            throw new CustomException(404,String.format("市场%s无品种%s价格信息",priceSingleMarketQuery.getMarket(),priceSingleMarketQuery.getPzList().toString()),"所选市场无品种价格信息");
+        }
         return PriceSingleMarketVO.transfer(pricePerMarketTodayPO,pricePerMarketWeekPO,pricePOList);
     }
 
     @Override
-    public PriceSinglePzVO getSinglePzPrice(PriceSinglePzQuery priceSinglePzQuery) {
+    public PriceSinglePzVO getSinglePzPrice(PriceSinglePzQuery priceSinglePzQuery) throws CustomException {
         PricePerPzTodayPO pricePerPzTodayPO = priceMapper.getPerPzTodayPrice(priceSinglePzQuery);
         PricePerPzWeekPO pricePerPzWeekPO = priceMapper.getPerPzWeekPrice(priceSinglePzQuery);
         List<PricePO> pricePOList = priceMapper.getPriceByMarketList(priceSinglePzQuery);
+        if(pricePerPzTodayPO==null){
+            throw new CustomException(404,String.format("品种%s无今日价格信息",priceSinglePzQuery.getPz()),"所选品种无今日价格信息");
+        }
+        if(pricePerPzWeekPO==null){
+            throw new CustomException(404,String.format("品种%s无本周价格信息",priceSinglePzQuery.getPz()),"所选品种无本周价格信息");
+        }
+        if(pricePOList.size()==0){
+            throw new CustomException(404,String.format("品种%s无市场%s价格信息",priceSinglePzQuery.getPz(),priceSinglePzQuery.getMarketList().toString()),"所选品种无市场价格信息");
+        }
         return PriceSinglePzVO.transfer(pricePerPzTodayPO, pricePerPzWeekPO, pricePOList);
     }
 }

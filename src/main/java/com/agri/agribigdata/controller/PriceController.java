@@ -57,17 +57,17 @@ public class PriceController {
     }
 
     @PostMapping("/price/partial")
-    public ResultVO getSinglePartialPrice(@RequestBody PricePartialQuery pricePartialQuery){
+    public ResultVO getSinglePartialPrice(@RequestBody PricePartialQuery pricePartialQuery) throws CustomException {
         return ResultVO.success(priceService.getSinglePzPartialPrice(pricePartialQuery));
     }
 
     @PostMapping("/price/singlemarket")
-    public ResultVO getSingleMarketPrice(@RequestBody PriceSingleMarketQuery priceSingleMarketQuery){
+    public ResultVO getSingleMarketPrice(@RequestBody PriceSingleMarketQuery priceSingleMarketQuery) throws CustomException {
         return ResultVO.success(priceService.getSingleMarketPrice(priceSingleMarketQuery));
     }
 
     @PostMapping("/price/singlepz")
-    public ResultVO getSinglePzPrice(@RequestBody PriceSinglePzQuery priceSinglePzQuery){
+    public ResultVO getSinglePzPrice(@RequestBody PriceSinglePzQuery priceSinglePzQuery) throws CustomException {
         return ResultVO.success(priceService.getSinglePzPrice(priceSinglePzQuery));
     }
 }
