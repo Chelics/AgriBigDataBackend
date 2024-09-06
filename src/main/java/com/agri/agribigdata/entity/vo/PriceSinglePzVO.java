@@ -17,7 +17,7 @@ import java.util.List;
 public class PriceSinglePzVO {
     private PricePzTodayBO todayInfo;
     private PricePzWeekBO weekInfo;
-    private List<PricePzOldAvgBO> averageInfo;
+    private List<PricePzAvgBO> averageInfo;
 
     public static PriceSinglePzVO transfer(PricePerPzTodayPO pricePerPzTodayPO, PricePerPzWeekPO pricePerPzWeekPO, List<PricePO> pricePOList){
         PricePzTodayBO todayInfo = new PricePzTodayBO();
@@ -44,6 +44,8 @@ public class PriceSinglePzVO {
             pricePzOldAvgBOList.add(pricePzOldAvgBO);
         }
 
-        return new PriceSinglePzVO(todayInfo, weekInfo, pricePzOldAvgBOList);
+        List<PricePzAvgBO> pricePzAvgBOList = PricePzAvgBO.transferOld2New(pricePzOldAvgBOList);
+
+        return new PriceSinglePzVO(todayInfo, weekInfo, pricePzAvgBOList);
     }
 }

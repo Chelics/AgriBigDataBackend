@@ -4,6 +4,7 @@ import com.agri.agribigdata.entity.po.IndexPO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +16,16 @@ public class IndexVO {
     private String pl;
     private Double index;
     private Double rise;
+    private Double rise3;
+    private Double rise5;
     private Double qoq;
 
     public static List<IndexVO> transferIndexP2V(List<IndexPO> indexPOList){
         List<IndexVO> indexVOList = new ArrayList<>();
         for(IndexPO indexPO:indexPOList){
             IndexVO indexVO = new IndexVO();
-            indexVO.setPl(indexPO.getPl());
+            BeanUtils.copyProperties(indexPO,indexVO);
             indexVO.setIndex(indexPO.getIndexValue());
-            indexVO.setQoq(indexPO.getQoq());
-            indexVO.setRise(indexPO.getRise());
             indexVOList.add(indexVO);
         }
         return indexVOList;

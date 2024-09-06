@@ -111,7 +111,7 @@
     </select>
 
     <select id="getPriceByPz" resultType="com.agri.agribigdata.entity.po.PricePO">
-        select market, prvc, pz, average,release_time from price_market
+        select prvc, pz, average,release_time from price_prvc
         <where>
             <if test="prvc != null and prvc != ''">
                 prvc LIKE CONCAT('%', #{prvc}, '%')
@@ -121,7 +121,7 @@
             </if>
         </where>
         union
-        select market, prvc, pz, average,release_time from price_market_predict
+        select prvc, pz, average,release_time from price_prvc_predict
         <where>
             <if test="prvc != null and prvc != ''">
                 prvc LIKE CONCAT('%', #{prvc}, '%')
