@@ -1,7 +1,7 @@
 package com.agri.agribigdata.entity.vo;
 
-import com.agri.agribigdata.entity.bo.PriceAvgBO;
 import com.agri.agribigdata.entity.bo.PriceMarketAvgBO;
+import com.agri.agribigdata.entity.bo.PriceMarketOldAvgBO;
 import com.agri.agribigdata.entity.bo.PriceMarketTodayBO;
 import com.agri.agribigdata.entity.bo.PriceMarketWeekBO;
 import com.agri.agribigdata.entity.po.PricePO;
@@ -38,15 +38,17 @@ public class PriceSingleMarketVO {
         weekInfo.setLowestPz(pricePerMarketWeekPO.getMinPz());
         weekInfo.setLowestReleaseTime(pricePerMarketWeekPO.getMinDate());
 
-        List<PriceMarketAvgBO> priceMarketAvgBOList = new ArrayList<>();
+        List<PriceMarketOldAvgBO> priceMarketOldAvgBOList = new ArrayList<>();
         for (PricePO pricePO : pricePOList) {
-            PriceMarketAvgBO priceMarketAvgBO = new PriceMarketAvgBO();
-            priceMarketAvgBO.setPz(pricePO.getPz());
-            priceMarketAvgBO.setReleaseTime(pricePO.getReleaseTime());
-            priceMarketAvgBO.setAverage(pricePO.getAverage());
-            priceMarketAvgBOList.add(priceMarketAvgBO);
+            PriceMarketOldAvgBO priceMarketOldAvgBO = new PriceMarketOldAvgBO();
+            priceMarketOldAvgBO.setPz(pricePO.getPz());
+            priceMarketOldAvgBO.setReleaseTime(pricePO.getReleaseTime());
+            priceMarketOldAvgBO.setAverage(pricePO.getAverage());
+            priceMarketOldAvgBOList.add(priceMarketOldAvgBO);
         }
 
-       return new PriceSingleMarketVO(todayInfo,weekInfo,priceMarketAvgBOList);
+        List<PriceMarketAvgBO> priceMarketAvgBOList = PriceMarketAvgBO.transferOld2New(priceMarketOldAvgBOList);
+
+       return new PriceSingleMarketVO(todayInfo,weekInfo, priceMarketAvgBOList);
     }
 }

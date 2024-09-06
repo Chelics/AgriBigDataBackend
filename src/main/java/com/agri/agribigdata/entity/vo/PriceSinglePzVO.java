@@ -17,7 +17,7 @@ import java.util.List;
 public class PriceSinglePzVO {
     private PricePzTodayBO todayInfo;
     private PricePzWeekBO weekInfo;
-    private List<PricePzAvgBO> averageInfo;
+    private List<PricePzOldAvgBO> averageInfo;
 
     public static PriceSinglePzVO transfer(PricePerPzTodayPO pricePerPzTodayPO, PricePerPzWeekPO pricePerPzWeekPO, List<PricePO> pricePOList){
         PricePzTodayBO todayInfo = new PricePzTodayBO();
@@ -35,15 +35,15 @@ public class PriceSinglePzVO {
         weekInfo.setLowestReleaseTime(pricePerPzWeekPO.getMinDate());
         weekInfo.setLowestMarket(pricePerPzWeekPO.getMinMarket());
 
-        List<PricePzAvgBO>  pricePzAvgBOList = new ArrayList<>();
+        List<PricePzOldAvgBO> pricePzOldAvgBOList = new ArrayList<>();
         for (PricePO pricePO : pricePOList) {
-            PricePzAvgBO pricePzAvgBO = new PricePzAvgBO();
-            pricePzAvgBO.setReleaseTime(pricePO.getReleaseTime());
-            pricePzAvgBO.setAverage(pricePO.getAverage());
-            pricePzAvgBO.setMarket(pricePO.getMarket());
-            pricePzAvgBOList.add(pricePzAvgBO);
+            PricePzOldAvgBO pricePzOldAvgBO = new PricePzOldAvgBO();
+            pricePzOldAvgBO.setReleaseTime(pricePO.getReleaseTime());
+            pricePzOldAvgBO.setAverage(pricePO.getAverage());
+            pricePzOldAvgBO.setMarket(pricePO.getMarket());
+            pricePzOldAvgBOList.add(pricePzOldAvgBO);
         }
 
-        return new PriceSinglePzVO(todayInfo, weekInfo, pricePzAvgBOList);
+        return new PriceSinglePzVO(todayInfo, weekInfo, pricePzOldAvgBOList);
     }
 }

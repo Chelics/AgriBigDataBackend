@@ -34,21 +34,23 @@
     <select id="getTopRise" resultType="com.agri.agribigdata.entity.vo.PriceTopRiseVO">
         select * from price_rise
         <where>
+            release_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
             <if test="prvc != null and prvc != ''">
-                prvc LIKE CONCAT('%', #{prvc}, '%')
+                AND prvc LIKE CONCAT('%', #{prvc}, '%')
             </if>
         </where>
-        order by rise DESC
+        order by rise ASC
     </select>
 
     <select id="getTopFall" resultType="com.agri.agribigdata.entity.vo.PriceTopFallVO">
         select * from price_fall
         <where>
+            release_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
             <if test="prvc != null and prvc != ''">
-                prvc LIKE CONCAT('%', #{prvc}, '%')
+                AND prvc LIKE CONCAT('%', #{prvc}, '%')
             </if>
         </where>
-        order by fall DESC
+        order by fall ASC
     </select>
 
     <select id="getPriceByPriceBO" resultType="com.agri.agribigdata.entity.po.PricePO">
@@ -109,7 +111,7 @@
     </select>
 
     <select id="getPriceByPz" resultType="com.agri.agribigdata.entity.po.PricePO">
-        select * from price_market
+        select market, prvc, pz, average,release_time from price_market
         <where>
             <if test="prvc != null and prvc != ''">
                 prvc LIKE CONCAT('%', #{prvc}, '%')
@@ -119,7 +121,7 @@
             </if>
         </where>
         union
-        select * from price_market_predict
+        select market, prvc, pz, average,release_time from price_market_predict
         <where>
             <if test="prvc != null and prvc != ''">
                 prvc LIKE CONCAT('%', #{prvc}, '%')
@@ -154,7 +156,7 @@
     </select>
 
     <select id="getPriceByPzList" resultType="com.agri.agribigdata.entity.po.PricePO">
-        select * from price_market
+        select market, prvc, pz, average,release_time from price_market
         <where>
             <if test="market != null and market != ''">
                 market LIKE CONCAT('%', #{market}, '%')
@@ -167,7 +169,7 @@
             </if>
         </where>
         union
-        select * from price_market_predict
+        select market, prvc, pz, average,release_time from price_market_predict
         <where>
             <if test="market != null and market != ''">
                 market LIKE CONCAT('%', #{market}, '%')
@@ -179,6 +181,7 @@
                 </foreach>
             </if>
         </where>
+        order by release_time ASC
     </select>
 
     <select id="getPerMarketWeekPrice" resultType="com.agri.agribigdata.entity.po.PricePerMarketWeekPO">
@@ -212,7 +215,7 @@
     </select>
 
     <select id="getPriceByMarketList" resultType="com.agri.agribigdata.entity.po.PricePO">
-        select * from price_market
+        select market, prvc, pz, average,release_time from price_market
         <where>
             <if test="pz != null and pz != ''">
                 pz LIKE CONCAT('%', #{pz}, '%')
@@ -225,7 +228,7 @@
             </if>
         </where>
         union
-        select * from price_market_predict
+        select market, prvc, pz, average,release_time from price_market_predict
         <where>
             <if test="pz != null and pz != ''">
                 pz LIKE CONCAT('%', #{pz}, '%')
