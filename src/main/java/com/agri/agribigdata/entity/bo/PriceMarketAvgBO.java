@@ -24,9 +24,7 @@ public class PriceMarketAvgBO {
             if (!newMap.containsKey(old.getPz())) {
                 newMap.put(old.getPz(), new ArrayList<>());
             }
-            PriceMultiBO priceMultiBO = new PriceMultiBO();
-            priceMultiBO.setReleaseTime(old.getReleaseTime());
-            priceMultiBO.setAverage(old.getAverage());
+            PriceMultiBO priceMultiBO = new PriceMultiBO(old.getReleaseTime(),old.getAverage());
             newMap.get(old.getPz()).add(priceMultiBO);
         }
 

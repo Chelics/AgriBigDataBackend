@@ -46,4 +46,10 @@ public interface PriceMapper {
     PricePerPzWeekPO getPerPzWeekPrice(PriceSinglePzQuery priceSinglePzQuery);
 
     List<PricePO> getPriceByMarketList(PriceSinglePzQuery priceSinglePzQuery);
+
+    List<PricePO> getPriceByPzWithoutPrediction(PricePartialQuery pricePartialQuery);
+
+    List<PricePO> getPriceByPzListWithoutPrediction(PriceSingleMarketQuery priceSingleMarketQuery);
+
+    List<PricePO> getPriceByMarketListWithoutPrediction(PriceSinglePzQuery priceSinglePzQuery);
 }

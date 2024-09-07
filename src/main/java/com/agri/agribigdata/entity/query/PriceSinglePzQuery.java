@@ -11,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 public class PriceSinglePzQuery {
     private String pz;
-
     private List<String> marketList;
+    private Boolean isPrediction = false;
 }

@@ -238,6 +238,52 @@
                 </foreach>
             </if>
         </where>
+        order by release_time ASC
+    </select>
+
+    <select id="getPriceByPzWithoutPrediction" resultType="com.agri.agribigdata.entity.po.PricePO">
+        select prvc, pz, average,release_time from price_prvc
+        <where>
+            <if test="prvc != null and prvc != ''">
+                prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+            <if test="pz != null and pz != ''">
+                AND pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+        </where>
+        order by release_time ASC
+    </select>
+
+    <select id="getPriceByPzListWithoutPrediction" resultType="com.agri.agribigdata.entity.po.PricePO">
+        select market, prvc, pz, average,release_time from price_market
+        <where>
+            <if test="market != null and market != ''">
+                market LIKE CONCAT('%', #{market}, '%')
+            </if>
+            <if test="pzList != null and pzList.size()>0">
+                AND pz in
+                <foreach item="singlePz" collection="pzList" open="(" separator="," close=")">
+                    #{singlePz}
+                </foreach>
+            </if>
+        </where>
+        order by release_time ASC
+    </select>
+
+    <select id="getPriceByMarketListWithoutPrediction" resultType="com.agri.agribigdata.entity.po.PricePO">
+        select market, prvc, pz, average,release_time from price_market
+        <where>
+            <if test="pz != null and pz != ''">
+                pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+            <if test="marketList != null and marketList.size()>0">
+                AND market in
+                <foreach item="singleMarket" collection="marketList" open="(" separator="," close=")">
+                    #{singleMarket}
+                </foreach>
+            </if>
+        </where>
+        order by release_time ASC
     </select>
 
 </mapper>

@@ -12,4 +12,5 @@ import java.util.List;
 public class PriceSingleMarketQuery {
     private String market;
     private List<String> pzList;
+    private Boolean isPrediction = false;
 }

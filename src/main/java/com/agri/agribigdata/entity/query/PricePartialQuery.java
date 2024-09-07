@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class PricePartialQuery {
     private String pz;
     private String prvc = "全国";
+    private Boolean isPrediction = false;
 }

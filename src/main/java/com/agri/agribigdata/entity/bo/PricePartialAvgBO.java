@@ -24,9 +24,7 @@ public class PricePartialAvgBO {
             if(!newMap.containsKey(old.getPrvc())){
                 newMap.put(old.getPrvc(), new ArrayList<>());
             }
-            PriceMultiBO priceMultiBO = new PriceMultiBO();
-            priceMultiBO.setReleaseTime(old.getReleaseTime());
-            priceMultiBO.setAverage(old.getAverage());
+            PriceMultiBO priceMultiBO = new PriceMultiBO(old.getReleaseTime(), old.getAverage());
             newMap.get(old.getPrvc()).add(priceMultiBO);
         }
 
