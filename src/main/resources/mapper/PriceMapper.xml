@@ -286,4 +286,56 @@
         order by release_time ASC
     </select>
 
+    <select id="getBriefMarketPz" resultType="com.agri.agribigdata.entity.po.BriefMarketPzPO">
+        select * from brief_market_pz
+        <where>
+            <if test="pz != null and pz != ''">
+                pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+            <if test="market != null and market != ''">
+                AND market LIKE CONCAT('%', #{market}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getBriefPrvcPz" resultType="com.agri.agribigdata.entity.po.BriefPrvcPzPO">
+        select * from brief_prvc_pz
+        <where>
+            <if test="pz != null and pz != ''">
+                pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+            <if test="prvc != null and prvc != ''">
+                AND prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getBriefPrvc" resultType="com.agri.agribigdata.entity.po.BriefPrvcPO">
+        select * from brief_prvc
+        <where>
+            <if test="prvc != null and prvc != ''">
+                prvc LIKE CONCAT('%', #{prvc}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getBriefMarket" resultType="com.agri.agribigdata.entity.po.BriefMarketPO">
+        select * from brief_market
+        <where>
+            <if test="market != null and market != ''">
+                market LIKE CONCAT('%', #{market}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getBriefPz" resultType="com.agri.agribigdata.entity.po.BriefPzPO">
+        select * from brief_pz
+        <where>
+            <if test="pz != null and pz != ''">
+                pz LIKE CONCAT('%', #{pz}, '%')
+            </if>
+        </where>
+    </select>
+
+
 </mapper>

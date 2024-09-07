@@ -7,6 +7,8 @@ import com.agri.agribigdata.entity.vo.*;
 import com.agri.agribigdata.exception.CustomException;
 import com.agri.agribigdata.mapper.PriceMapper;
 import com.agri.agribigdata.service.PriceService;
+import com.agri.agribigdata.utils.TextUtils;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -116,5 +118,21 @@ public class PriceServiceImpl implements PriceService {
             throw new CustomException(404,String.format("品种%s无市场%s价格信息",priceSinglePzQuery.getPz(),priceSinglePzQuery.getMarketList().toString()),"所选品种无市场价格信息");
         }
         return PriceSinglePzVO.transfer(pricePerPzTodayPO, pricePerPzWeekPO, pricePOList);
+    }
+
+    @Override
+    public String getPriceBrief(PriceBriefQuery priceBriefQuery) {
+        if (StringUtils.isNotBlank(priceBriefQuery.getMarket()) && StringUtils.isNotBlank(priceBriefQuery.getPz())) {
+            return TextUtils.processPriceBriefWithMarketAndPz(priceMapper.getBriefMarketPz(priceBriefQuery.getMarket(), priceBriefQuery.getPz()));
+        } else if (StringUtils.isNotBlank(priceBriefQuery.getPrvc()) && StringUtils.isNotBlank(priceBriefQuery.getPz())) {
+            return TextUtils.processPriceBriefWithPrvcAndPz(priceMapper.getBriefPrvcPz(priceBriefQuery.getPrvc(), priceBriefQuery.getPz()));
+        } else if(StringUtils.isNotBlank(priceBriefQuery.getMarket())){
+            return TextUtils.processPriceBriefWithMarket(priceMapper.getBriefMarket(priceBriefQuery.getMarket()));
+        } else if (StringUtils.isNotBlank(priceBriefQuery.getPrvc())) {
+            return TextUtils.processPriceBriefWithPrvc(priceMapper.getBriefPrvc(priceBriefQuery.getPrvc()));
+        } else if(StringUtils.isNotBlank(priceBriefQuery.getPz())){
+            return TextUtils.processPriceBriefWithPz(priceMapper.getBriefPz(priceBriefQuery.getPz()));
+        }
+        return null;
     }
 }

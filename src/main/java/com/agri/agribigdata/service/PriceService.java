@@ -28,4 +28,6 @@ public interface PriceService {
     PriceSingleMarketVO getSingleMarketPrice(PriceSingleMarketQuery priceSingleMarketQuery) throws CustomException;
 
     PriceSinglePzVO getSinglePzPrice(PriceSinglePzQuery priceSinglePzQuery) throws CustomException;
+
+    String getPriceBrief(PriceBriefQuery priceBriefQuery);
 }

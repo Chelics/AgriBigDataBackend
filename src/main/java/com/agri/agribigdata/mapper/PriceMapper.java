@@ -52,4 +52,14 @@ public interface PriceMapper {
     List<PricePO> getPriceByPzListWithoutPrediction(PriceSingleMarketQuery priceSingleMarketQuery);
 
     List<PricePO> getPriceByMarketListWithoutPrediction(PriceSinglePzQuery priceSinglePzQuery);
+
+    BriefMarketPzPO getBriefMarketPz(String market, String pz);
+
+    BriefPrvcPzPO getBriefPrvcPz(String prvc, String pz);
+
+    BriefPrvcPO getBriefPrvc(String prvc);
+
+    BriefMarketPO getBriefMarket(String market);
+
+    BriefPzPO getBriefPz(String pz);
 }

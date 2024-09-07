@@ -70,4 +70,9 @@ public class PriceController {
     public ResultVO getSinglePzPrice(@RequestBody PriceSinglePzQuery priceSinglePzQuery) throws CustomException {
         return ResultVO.success(priceService.getSinglePzPrice(priceSinglePzQuery));
     }
+
+    @PostMapping("/price/brief")
+    public ResultVO getBrief(@RequestBody PriceBriefQuery priceBriefQuery){
+        return ResultVO.success(priceService.getPriceBrief(priceBriefQuery));
+    }
 }

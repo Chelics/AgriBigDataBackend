@@ -1,9 +1,7 @@
 package com.agri.agribigdata.entity.vo;
 
 import com.agri.agribigdata.entity.bo.ArticleGuideBO;
-import com.agri.agribigdata.entity.bo.UserBO;
-import com.agri.agribigdata.entity.query.UserRQuery;
-import com.agri.agribigdata.utils.TextLengthUtils;
+import com.agri.agribigdata.utils.TextUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,8 +21,8 @@ public class ArticleGuideVO {
         articleGuideVO.setPz(articleGuideBO.getPz());
         articleGuideVO.setLink(articleGuideBO.getLink());
         articleGuideVO.setReleaseDate(articleGuideBO.getReleaseDate());
-        articleGuideVO.setTitle(TextLengthUtils.processArticleGuideTitle(articleGuideBO.getTitle()));
-        articleGuideVO.setBrief(TextLengthUtils.processArticleGuideBrief(articleGuideBO.getBrief()));
+        articleGuideVO.setTitle(TextUtils.processArticleGuideTitle(articleGuideBO.getTitle()));
+        articleGuideVO.setBrief(TextUtils.processArticleGuideBrief(articleGuideBO.getBrief()));
         return articleGuideVO;
     }
 }
