@@ -1,6 +1,7 @@
 package com.agri.agribigdata.utils;
 
 import com.agri.agribigdata.entity.po.*;
+import com.agri.agribigdata.exception.CustomException;
 import io.micrometer.common.util.StringUtils;
 
 import java.time.LocalDate;
@@ -29,7 +30,10 @@ public class TextUtils {
         return date.format(formatter);
     }
 
-    public static String processPriceBriefWithMarketAndPz(BriefMarketPzPO briefMarketPzPO){
+    public static String processPriceBriefWithMarketAndPz(BriefMarketPzPO briefMarketPzPO) throws CustomException {
+        if(briefMarketPzPO==null) {
+            throw new CustomException(404,String.format("市场%s无品种%s价格信息",briefMarketPzPO.getMarket(),briefMarketPzPO.getPz()),"所查找信息不存在");
+        }
         StringBuilder brief = new StringBuilder();
 
         brief.append("昨日(").append(getYesterday()).append("), 【")
@@ -37,7 +41,7 @@ public class TextUtils {
                 .append(briefMarketPzPO.getPz()).append("】平均价格为")
                 .append(briefMarketPzPO.getAverage()).append("元, ");
 
-        if (briefMarketPzPO.getHighest() != briefMarketPzPO.getLowest()) {
+        if (!areDoublesEqual(briefMarketPzPO.getLowest(), briefMarketPzPO.getHighest(), 1e-9)) {
             brief.append("价格范围为").append(briefMarketPzPO.getLowest())
                     .append("~").append(briefMarketPzPO.getHighest()).append("元。");
         } else {
@@ -61,7 +65,10 @@ public class TextUtils {
         return brief.toString();
     }
 
-    public static String processPriceBriefWithPrvcAndPz(BriefPrvcPzPO briefPrvcPzPO){
+    public static String processPriceBriefWithPrvcAndPz(BriefPrvcPzPO briefPrvcPzPO) throws CustomException {
+        if(briefPrvcPzPO==null){
+            throw new CustomException(404,String.format("省份%s无品种%s价格信息", briefPrvcPzPO.getPrvc(), briefPrvcPzPO.getPz()),"所查找信息不存在");
+        }
         StringBuilder brief = new StringBuilder();
 
         brief.append("昨日(").append(getYesterday()).append("), ")
@@ -69,7 +76,7 @@ public class TextUtils {
                 .append(briefPrvcPzPO.getPz()).append("】平均价格为")
                 .append(briefPrvcPzPO.getAverage()).append("元, ");
 
-        if (briefPrvcPzPO.getHighest() != briefPrvcPzPO.getLowest()) {
+        if (!areDoublesEqual(briefPrvcPzPO.getHighest(), briefPrvcPzPO.getLowest(), 1e-9)) {
             brief.append("价格范围为").append(briefPrvcPzPO.getLowest())
                     .append("~").append(briefPrvcPzPO.getHighest()).append("元。");
         } else {
@@ -146,4 +153,9 @@ public class TextUtils {
         }
         return brief.toString();
     }
+
+    public static boolean areDoublesEqual(double a, double b, double tolerance) {
+        return Math.abs(a - b) < tolerance;
+    }
+
 }

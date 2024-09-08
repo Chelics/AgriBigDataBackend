@@ -29,5 +29,5 @@ public interface PriceService {
 
     PriceSinglePzVO getSinglePzPrice(PriceSinglePzQuery priceSinglePzQuery) throws CustomException;
 
-    String getPriceBrief(PriceBriefQuery priceBriefQuery);
+    String getPriceBrief(PriceBriefQuery priceBriefQuery) throws CustomException;
 }

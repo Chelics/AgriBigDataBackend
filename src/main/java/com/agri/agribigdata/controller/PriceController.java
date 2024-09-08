@@ -72,7 +72,7 @@ public class PriceController {
     }
 
     @PostMapping("/price/brief")
-    public ResultVO getBrief(@RequestBody PriceBriefQuery priceBriefQuery){
+    public ResultVO getBrief(@RequestBody PriceBriefQuery priceBriefQuery) throws CustomException {
         return ResultVO.success(priceService.getPriceBrief(priceBriefQuery));
     }
 }

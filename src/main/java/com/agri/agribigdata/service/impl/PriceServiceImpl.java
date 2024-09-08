@@ -121,7 +121,7 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public String getPriceBrief(PriceBriefQuery priceBriefQuery) {
+    public String getPriceBrief(PriceBriefQuery priceBriefQuery) throws CustomException {
         if (StringUtils.isNotBlank(priceBriefQuery.getMarket()) && StringUtils.isNotBlank(priceBriefQuery.getPz())) {
             return TextUtils.processPriceBriefWithMarketAndPz(priceMapper.getBriefMarketPz(priceBriefQuery.getMarket(), priceBriefQuery.getPz()));
         } else if (StringUtils.isNotBlank(priceBriefQuery.getPrvc()) && StringUtils.isNotBlank(priceBriefQuery.getPz())) {

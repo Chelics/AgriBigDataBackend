@@ -332,7 +332,7 @@
         select * from brief_pz
         <where>
             <if test="pz != null and pz != ''">
-                pz LIKE CONCAT('%', #{pz}, '%')
+                pz LIKE #{pz}
             </if>
         </where>
     </select>
