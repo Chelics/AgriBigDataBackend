@@ -25,7 +25,7 @@ public class LoginController {
     @Autowired
     private UserService userService;
     @PostMapping("/login/password")
-    public ResultVO login(@RequestBody UserPQuery userPQuery) throws CustomException {
+    public ResultVO loginWithPassword(@RequestBody UserPQuery userPQuery) throws CustomException {
         UserBO userBO = userService.loginWithPassword(userPQuery);
         if(userBO == null){
             throw new CustomException(401,String.format("用户名%s不存在",userPQuery.getUsername()),"用户名不存在");

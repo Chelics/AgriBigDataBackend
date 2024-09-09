@@ -101,7 +101,10 @@ public class TextUtils {
     }
 
 
-    public static String processPriceBriefWithPrvc(BriefPrvcPO briefPrvcPO){
+    public static String processPriceBriefWithPrvc(BriefPrvcPO briefPrvcPO) throws CustomException {
+        if(briefPrvcPO==null){
+            throw new CustomException(404,String.format("省份%s无价格信息", briefPrvcPO.getPrvc()),"所查找信息不存在");
+        }
         StringBuilder brief = new StringBuilder();
         brief.append(briefPrvcPO.getPrvc()).append("中有").append(briefPrvcPO.getMarketNum()).append("个市场。");
         if (StringUtils.isNotBlank(briefPrvcPO.getMainPz())) {
@@ -116,7 +119,10 @@ public class TextUtils {
         return brief.toString();
     }
 
-    public static String processPriceBriefWithMarket(BriefMarketPO briefMarketPO){
+    public static String processPriceBriefWithMarket(BriefMarketPO briefMarketPO) throws CustomException {
+        if(briefMarketPO==null){
+            throw new CustomException(404,String.format("市场%s无价格信息", briefMarketPO.getMarket(),"所查找信息不存在"));
+        }
         StringBuilder brief = new StringBuilder();
         brief.append(briefMarketPO.getMarket())
                 .append("有")
@@ -135,7 +141,10 @@ public class TextUtils {
         return brief.toString();
     }
 
-    public static String processPriceBriefWithPz(BriefPzPO briefPzPO){
+    public static String processPriceBriefWithPz(BriefPzPO briefPzPO) throws CustomException {
+        if(briefPzPO==null){
+            throw new CustomException(404,String.format("品种%s无价格信息", briefPzPO.getPz(),"所查找信息不存在"));
+        }
         StringBuilder brief = new StringBuilder();
         brief.append(briefPzPO.getPz())
                 .append("的全国均价为")

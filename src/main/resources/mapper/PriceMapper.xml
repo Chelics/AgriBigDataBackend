@@ -37,6 +37,7 @@
             <if test="prvc != null and prvc != ''">
                prvc LIKE CONCAT('%', #{prvc}, '%')
             </if>
+            and release_date = CURDATE()-1
         </where>
         order by rise ASC
     </select>
@@ -47,6 +48,7 @@
             <if test="prvc != null and prvc != ''">
                prvc LIKE CONCAT('%', #{prvc}, '%')
             </if>
+            and release_date = CURDATE()-1
         </where>
         order by fall_value ASC
     </select>
