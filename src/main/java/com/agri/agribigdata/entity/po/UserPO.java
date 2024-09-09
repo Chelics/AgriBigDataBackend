@@ -14,7 +14,7 @@ public class UserPO {
     private String tel;
     private String email;
     private String password;
-    private String prvcId;
+    private String prvc;
     private String verifyCode;
     private Date verifyTime;
 }

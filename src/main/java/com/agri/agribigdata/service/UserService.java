@@ -2,6 +2,7 @@ package com.agri.agribigdata.service;
 
 
 import com.agri.agribigdata.entity.bo.UserBO;
+import com.agri.agribigdata.entity.po.UserPO;
 import com.agri.agribigdata.entity.query.PersonalQuery;
 import com.agri.agribigdata.entity.query.UserPQuery;
 import com.agri.agribigdata.entity.query.UserVQuery;
@@ -14,7 +15,7 @@ public interface UserService {
     boolean isDuplicatedUsername(UserBO userBO);
     boolean isDuplicatedTel(UserBO userBO);
     boolean isDuplicatedEmail(UserBO userBO);
-    UserBO loginWithPassword(UserPQuery userPQuery);
+    UserPO loginWithPassword(UserPQuery userPQuery);
 
     void loginWithVCode(UserVQuery userVQuery) throws CustomException;
 
@@ -23,5 +24,6 @@ public interface UserService {
 
     void setPersonal(PersonalQuery personalQuery) throws CustomException;
 
+    UserBO getPersonalInfo(UserPO userPO);
 
 }

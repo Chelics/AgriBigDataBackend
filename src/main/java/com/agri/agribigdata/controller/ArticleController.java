@@ -20,7 +20,7 @@ public class ArticleController {
     ArticleService articleService;
 
     @PostMapping("/article/pz")
-    public ResultVO getPZForArticle(@RequestBody PzQuery pzQuery){
+    public ResultVO getPzForArticle(@RequestBody PzQuery pzQuery){
         return ResultVO.success(articleService.getPzForArticle(pzQuery));
     }
 

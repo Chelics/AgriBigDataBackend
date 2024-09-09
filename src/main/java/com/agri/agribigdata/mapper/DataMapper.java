@@ -14,5 +14,5 @@ public interface DataMapper {
     DataVO getData();
 
     @Select("select * from supply_demand")
-    List<SupplyVO> getSupplyDate();
+    List<SupplyVO> getSupplyData();
 }

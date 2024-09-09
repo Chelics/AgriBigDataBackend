@@ -20,7 +20,7 @@
         select distinct pz from price_market
         <where>
             <if test="name != null and name != ''">
-                pz LIKE CONCAT('%', #{name}, '%')
+                pz LIKE #{pz}
             </if>
             <if test="prvc != null and prvc != ''">
                 AND prvc LIKE CONCAT('%', #{prvc}, '%')
@@ -57,7 +57,7 @@
         select * from price_market
         <where>
             <if test="pz != null and pz != ''">
-                pz LIKE CONCAT('%', #{pz}, '%')
+                pz LIKE #{pz}
             </if>
             <if test="prvc != null and prvc != ''">
                 AND prvc LIKE CONCAT('%', #{prvc}, '%')
@@ -80,7 +80,7 @@
         select count(*) from price_market
         <where>
             <if test="pz != null and pz != ''">
-                pz LIKE CONCAT('%', #{pz}, '%')
+                pz LIKE #{pz}
             </if>
             <if test="prvc != null and prvc != ''">
                 AND prvc LIKE CONCAT('%', #{prvc}, '%')
@@ -104,7 +104,7 @@
             prvc LIKE CONCAT('%', #{prvc}, '%')
             </if>
             <if test="pz != null and pz != ''">
-            AND pz LIKE CONCAT('%', #{pz}, '%')
+            AND pz LIKE #{pz}
             </if>
         </where>
         limit 1
@@ -117,7 +117,7 @@
                 prvc LIKE CONCAT('%', #{prvc}, '%')
             </if>
             <if test="pz != null and pz != ''">
-                AND pz LIKE CONCAT('%', #{pz}, '%')
+                AND pz LIKE #{pz}
             </if>
         </where>
         union
@@ -127,7 +127,7 @@
                 prvc LIKE CONCAT('%', #{prvc}, '%')
             </if>
             <if test="pz != null and pz != ''">
-                AND pz LIKE CONCAT('%', #{pz}, '%')
+                AND pz LIKE #{pz}
             </if>
         </where>
     </select>
@@ -139,7 +139,7 @@
                 prvc LIKE CONCAT('%', #{prvc}, '%')
             </if>
             <if test="pz != null and pz != ''">
-                AND pz LIKE CONCAT('%', #{pz}, '%')
+                AND pz LIKE #{pz}
             </if>
         </where>
         limit 1
@@ -198,7 +198,7 @@
         select * from per_pz_today
         <where>
             <if test="pz != null and pz != ''">
-                pz LIKE CONCAT('%', #{pz}, '%')
+                pz LIKE #{pz}
             </if>
         </where>
         limit 1
@@ -208,7 +208,7 @@
         select * from per_pz_week
         <where>
             <if test="pz != null and pz != ''">
-                pz LIKE CONCAT('%', #{pz}, '%')
+                pz LIKE #{pz}
             </if>
         </where>
         limit 1
@@ -218,7 +218,7 @@
         select market, prvc, pz, average,release_time from price_market
         <where>
             <if test="pz != null and pz != ''">
-                pz LIKE CONCAT('%', #{pz}, '%')
+                pz LIKE #{pz}
             </if>
             <if test="marketList != null and marketList.size()>0">
                 AND market in
@@ -231,7 +231,7 @@
         select market, prvc, pz, average,release_time from price_market_predict
         <where>
             <if test="pz != null and pz != ''">
-                pz LIKE CONCAT('%', #{pz}, '%')
+                pz LIKE CONCAT#{pz}
             </if>
             <if test="marketList != null and marketList.size()>0">
                 AND market in
@@ -250,7 +250,7 @@
                 prvc LIKE CONCAT('%', #{prvc}, '%')
             </if>
             <if test="pz != null and pz != ''">
-                AND pz LIKE CONCAT('%', #{pz}, '%')
+                AND pz LIKE #{pz}
             </if>
         </where>
         order by release_time ASC
@@ -276,7 +276,7 @@
         select market, prvc, pz, average,release_time from price_market
         <where>
             <if test="pz != null and pz != ''">
-                pz LIKE CONCAT('%', #{pz}, '%')
+                pz LIKE #{pz}
             </if>
             <if test="marketList != null and marketList.size()>0">
                 AND market in
@@ -292,7 +292,7 @@
         select * from brief_market_pz
         <where>
             <if test="pz != null and pz != ''">
-                pz LIKE CONCAT('%', #{pz}, '%')
+                pz LIKE #{pz}
             </if>
             <if test="market != null and market != ''">
                 AND market LIKE CONCAT('%', #{market}, '%')
@@ -304,7 +304,7 @@
         select * from brief_prvc_pz
         <where>
             <if test="pz != null and pz != ''">
-                pz LIKE CONCAT('%', #{pz}, '%')
+                pz LIKE #{pz}
             </if>
             <if test="prvc != null and prvc != ''">
                 AND prvc LIKE CONCAT('%', #{prvc}, '%')

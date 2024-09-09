@@ -3,6 +3,7 @@ package com.agri.agribigdata.service.impl;
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import com.agri.agribigdata.config.VerifyConfig;
+import com.agri.agribigdata.entity.po.UserPO;
 import com.agri.agribigdata.entity.query.PersonalQuery;
 import com.agri.agribigdata.entity.query.UserVQuery;
 import com.agri.agribigdata.exception.CustomException;
@@ -12,6 +13,7 @@ import com.agri.agribigdata.entity.bo.UserBO;
 import com.agri.agribigdata.entity.query.UserPQuery;
 import com.agri.agribigdata.utils.PasswordUtils;
 import com.agri.agribigdata.utils.VCodeUtils;
+import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -62,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserBO loginWithPassword(UserPQuery userPQuery) {
+    public UserPO loginWithPassword(UserPQuery userPQuery) {
         return userMapper.getByUsername(userPQuery);
     }
 
@@ -153,5 +155,16 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
+    @Override
+    public UserBO getPersonalInfo(UserPO userPO) {
+        if(StringUtils.isBlank(userPO.getId())){
+            userPO.setId(userMapper.getIdByUsername(userPO.getUsername()));
+            userPO.setPrvc(userMapper.getPrvcByUsername(userPO.getUsername()));
+        }
+        List<String> pzList = userMapper.getInterestedPzList(userPO.getId());
+        return UserBO.transferUserP2B(userPO,pzList);
+    }
+
 
 }

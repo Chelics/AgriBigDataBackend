@@ -2,6 +2,7 @@ package com.agri.agribigdata.mapper;
 
 import java.util.List;
 import com.agri.agribigdata.entity.bo.UserBO;
+import com.agri.agribigdata.entity.po.UserPO;
 import com.agri.agribigdata.entity.query.UserPQuery;
 import com.agri.agribigdata.entity.query.UserVQuery;
 import org.apache.ibatis.annotations.*;
@@ -13,7 +14,7 @@ public interface UserMapper {
     void register(UserBO userBO);
 
     @Select("select * from user where username=#{username}")
-    UserBO getByUsername(UserPQuery userPQuery) ;
+    UserPO getByUsername(UserPQuery userPQuery) ;
 
     @Select("select * from user where email = #{email}")
     UserBO getByEmail(UserVQuery userVQuery);
@@ -33,8 +34,8 @@ public interface UserMapper {
     @Update("update user set prvc = #{prvcId} where id = #{userId}")
     void setPrcv(String userId, String prvcId);
 
-    @Insert("insert into user_pz(user_id, pz) values (#{userId},#{pzId})")
-    void setPz(String userId, String pzId);
+    @Insert("insert into user_pz(user_id, pz) values (#{userId},#{pz})")
+    void setPz(String userId, String pz);
 
     @Select("select id from user where username=#{username}")
     String getIdByUsername(String username);
@@ -47,4 +48,9 @@ public interface UserMapper {
 
     @Update("update user set verify_code = #{code}, verify_time = #{time} where tel = #{tel}")
     void updateVerifyInfoByTel(String code, String time, String tel);
+
+    @Select("select pz from user_pz  where user_id = #{id}")
+    List<String> getInterestedPzList(String id);
+    @Select("select prvc from user  where username = #{username}")
+    String getPrvcByUsername(String username);
 }

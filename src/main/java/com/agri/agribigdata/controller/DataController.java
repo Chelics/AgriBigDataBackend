@@ -22,7 +22,7 @@ public class DataController {
 
     @GetMapping("supplyndemand")
     public ResultVO getSupplyData(){
-        return ResultVO.success(dataService.getSupplyDate());
+        return ResultVO.success(dataService.getSupplyData());
     }
 
 }

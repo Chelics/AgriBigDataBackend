@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @CrossOrigin
@@ -26,22 +28,31 @@ public class PriceController {
     }
 
     @PostMapping("/price/rise")
-    public ResultVO getTopRise(@RequestBody PriceTopQuery priceTopQuery){
-        if(priceTopQuery.getPrvc().equals("")){
+    public ResultVO getTopRise(@RequestBody PriceTopQuery priceTopQuery, @RequestAttribute("claims") Map<String, Object> claims){
+        if(priceTopQuery.getPrvc()==null || priceTopQuery.getPrvc().equals("")){
             priceTopQuery.setPrvc("全国");
+            if (claims != null) {
+                String prvc = claims.get("prvc")==null?"全国":(String) claims.get("prvc");
+                priceTopQuery.setPrvc(prvc);
+            }
         }
+
         return ResultVO.success(priceService.getTopRise(priceTopQuery));
     }
 
     @PostMapping("/price/fall")
-    public ResultVO getTopFall(@RequestBody PriceTopQuery priceTopQuery){
-        if(priceTopQuery.getPrvc().equals("")){
+    public ResultVO getTopFall(@RequestBody PriceTopQuery priceTopQuery, @RequestAttribute("claims") Map<String, Object> claims){
+        if(priceTopQuery.getPrvc()==null || priceTopQuery.getPrvc().equals("")){
             priceTopQuery.setPrvc("全国");
+            if (claims != null) {
+                String prvc = claims.get("prvc")==null?"全国":(String) claims.get("prvc");
+                priceTopQuery.setPrvc(prvc);
+            }
         }
         return ResultVO.success(priceService.getTopFall(priceTopQuery));
     }
 
-    @PostMapping("/price")
+    @PostMapping("/price/list")
     public ResultVO getPrice(@RequestBody PriceQuery priceQuery){
         return ResultVO.success(priceService.getPrice(PriceBO.TransferQuery2BO(priceQuery)));
     }

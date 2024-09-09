@@ -8,5 +8,5 @@ public interface DataService {
 
     DataVO getData();
 
-    List<SupplyVO> getSupplyDate();
+    List<SupplyVO> getSupplyData();
 }

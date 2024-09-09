@@ -14,6 +14,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry){
         //addPathPatterns配置拦截的资源, excludePathPatterns配置不需要拦截的资源
-        registry.addInterceptor(loginCheckInterceptor).addPathPatterns("").excludePathPatterns("/**");
+        registry.addInterceptor(loginCheckInterceptor).addPathPatterns("/**").excludePathPatterns("/register");
     }
 }

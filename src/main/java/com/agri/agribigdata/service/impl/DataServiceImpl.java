@@ -19,7 +19,7 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
-    public List<SupplyVO> getSupplyDate() {
-        return dataMapper.getSupplyDate();
+    public List<SupplyVO> getSupplyData() {
+        return dataMapper.getSupplyData();
     }
 }

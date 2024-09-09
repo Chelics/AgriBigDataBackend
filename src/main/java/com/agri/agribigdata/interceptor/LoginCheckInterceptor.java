@@ -4,6 +4,7 @@ package com.agri.agribigdata.interceptor;
 import com.agri.agribigdata.entity.vo.ResultVO;
 import com.agri.agribigdata.utils.JwtUtils;
 import com.alibaba.fastjson.JSONObject;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.HashMap;
+import java.util.Map;
+
 @Slf4j
 @Component
 public class LoginCheckInterceptor implements HandlerInterceptor {
@@ -36,21 +41,26 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        //3.获取请求头中的令牌(token)
-        String jwt = request.getHeader("token");
+        //3.获取请求头中的令牌
+        String jwt = request.getHeader("Authorization");
 
-        //4.判断令牌是否存在. 如不存在(未登录), 直接返回错误结果
+        if (jwt != null && jwt.startsWith("Bearer ")) {
+            String token = jwt.substring(7); // 提取令牌部分
+        }
+
+        //4.判断令牌是否存在. 如不存在
         if(!StringUtils.hasLength(jwt)){
             log.info("请求头token为空, 未登录");
+            request.setAttribute("claims", new HashMap<String,Object>());
             ResultVO error = ResultVO.error(HttpStatus.UNAUTHORIZED.value(),"NOT_LOGIN");
-            String notLogin = JSONObject.toJSONString(error);
-            response.getWriter().write(notLogin);
-            return false;
+            //String notLogin = JSONObject.toJSONString(error);
+            //response.getWriter().write(notLogin);
+            return true;
         }
 
         //5.解析token, 如解析失败(未登录), 返回错误结果
         try {
-            JwtUtils.parseJwt(jwt);
+            request.setAttribute("claims",JwtUtils.parseJwt(jwt));
         }catch (Exception e){
             e.printStackTrace();
             log.info("解析令牌失败, 返回未登录错误信息");

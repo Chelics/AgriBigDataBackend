@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PriceTopQuery {
-    private String prvc = "全国";
+    private String prvc;
 }

@@ -1,6 +1,9 @@
 package com.agri.agribigdata.controller;
 
+import com.agri.agribigdata.entity.bo.UserBO;
+import com.agri.agribigdata.entity.po.UserPO;
 import com.agri.agribigdata.entity.query.PersonalQuery;
+import com.agri.agribigdata.entity.vo.PersonalVO;
 import com.agri.agribigdata.entity.vo.ResultVO;
 import com.agri.agribigdata.exception.CustomException;
 import com.agri.agribigdata.service.UserService;
@@ -21,5 +24,13 @@ public class PersonalController {
     public ResultVO setPersonal(@RequestBody PersonalQuery personalQuery) throws CustomException {
         userService.setPersonal(personalQuery);
         return new ResultVO().success();
+    }
+
+    @PostMapping("/getpersonal")
+    public ResultVO getPersonal(@RequestBody PersonalQuery personalQuery) throws CustomException {
+        UserPO userPO = new UserPO();
+        userPO.setUsername(personalQuery.getUsername());
+        UserBO userBO = userService.getPersonalInfo(userPO);
+        return new ResultVO().success(PersonalVO.transferB2V(userBO));
     }
 }

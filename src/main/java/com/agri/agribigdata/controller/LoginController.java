@@ -1,5 +1,6 @@
 package com.agri.agribigdata.controller;
 
+import com.agri.agribigdata.entity.po.UserPO;
 import com.agri.agribigdata.entity.query.UserVQuery;
 import com.agri.agribigdata.exception.CustomException;
 import com.agri.agribigdata.service.UserService;
@@ -10,10 +11,7 @@ import com.agri.agribigdata.utils.JwtUtils;
 import com.agri.agribigdata.utils.PasswordUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +24,8 @@ public class LoginController {
     private UserService userService;
     @PostMapping("/login/password")
     public ResultVO loginWithPassword(@RequestBody UserPQuery userPQuery) throws CustomException {
-        UserBO userBO = userService.loginWithPassword(userPQuery);
+        UserPO userPO = userService.loginWithPassword(userPQuery);
+        UserBO userBO = userService.getPersonalInfo(userPO);
         if(userBO == null){
             throw new CustomException(401,String.format("用户名%s不存在",userPQuery.getUsername()),"用户名不存在");
         }
@@ -34,14 +33,15 @@ public class LoginController {
             throw new CustomException(401,String.format("用户%s尝试登录,但密码错误",userPQuery.getUsername()),"用户名与密码不匹配");
         }
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username",userPQuery.getUsername());
-        claims.put("password",userPQuery.getPassword());
+        claims.put("username",userBO.getUsername());
+        claims.put("prvc",userBO.getPrvc());
+        claims.put("pz",userBO.getInterestedPzList().toString());
         return ResultVO.success(JwtUtils.generateJwt(claims));
     }
 
     @PostMapping("/login/sendvcode")
     public ResultVO sendVCode(@RequestBody UserVQuery userVQuery) throws CustomException{
-        if((userVQuery.getTel()==null || userVQuery.getTel()=="") && (userVQuery.getEmail()==null || userVQuery.getEmail()!="")){
+        if((userVQuery.getTel()==null && userVQuery.getTel()=="") || (userVQuery.getEmail()==null && userVQuery.getEmail()!="")){
             throw new CustomException(401, "邮箱和电话号码均为空","邮箱和电话号码至少要填写一个");
         }
         if(userVQuery.getEmail()!=null && userVQuery.getEmail()!="" && userService.isDuplicatedEmail(UserBO.transferUserVQ2B(userVQuery))==false){
