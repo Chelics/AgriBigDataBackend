@@ -6,7 +6,5 @@ import java.util.List;
 
 @Mapper
 public interface PrvcMapper {
-
-
     List<String> getPrvcByName(String name);
 }

@@ -24,6 +24,6 @@ public interface UserService {
 
     void setPersonal(PersonalQuery personalQuery) throws CustomException;
 
-    UserBO getPersonalInfo(UserPO userPO);
+    UserBO getPersonalInfo(UserPO userPO) throws CustomException;
 
 }

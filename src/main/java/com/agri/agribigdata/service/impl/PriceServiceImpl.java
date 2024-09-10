@@ -66,7 +66,7 @@ public class PriceServiceImpl implements PriceService {
         }
 
         if(pricePerPzWeekPO==null){
-            throw new CustomException(404,String.format("品种%s在地区%s无今日价格信息",pricePartialQuery.getPz(),pricePartialQuery.getPrvc()),"所选品种在相应地区无综合价格信息");
+            throw new CustomException(404,String.format("品种%s在地区%s无本周价格信息",pricePartialQuery.getPz(),pricePartialQuery.getPrvc()),"所选品种在相应地区无综合价格信息");
         }
         if(pricePOList.size()==0){
             throw new CustomException(404,String.format("品种%s在地区%s无今日价格信息",pricePartialQuery.getPz(),pricePartialQuery.getPrvc()),"所选品种在相应地区无价格信息");

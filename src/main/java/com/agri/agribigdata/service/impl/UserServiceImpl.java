@@ -157,7 +157,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserBO getPersonalInfo(UserPO userPO) {
+    public UserBO getPersonalInfo(UserPO userPO) throws CustomException {
+        if(userPO==null){
+            throw new CustomException(404,"用户不存在","用户不存在");
+        }
         if(StringUtils.isBlank(userPO.getId())){
             userPO.setId(userMapper.getIdByUsername(userPO.getUsername()));
             userPO.setPrvc(userMapper.getPrvcByUsername(userPO.getUsername()));
