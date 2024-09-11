@@ -39,13 +39,13 @@ public class TextUtils {
         brief.append("昨日(").append(getYesterday()).append("), 【")
                 .append(briefMarketPzPO.getMarket()).append("】的【")
                 .append(briefMarketPzPO.getPz()).append("】平均价格为")
-                .append(briefMarketPzPO.getAverage()).append("元, ");
+                .append(briefMarketPzPO.getAverage()).append("元/斤, ");
 
         if (!areDoublesEqual(briefMarketPzPO.getLowest(), briefMarketPzPO.getHighest(), 1e-9)) {
             brief.append("价格范围为").append(briefMarketPzPO.getLowest())
-                    .append("~").append(briefMarketPzPO.getHighest()).append("元。");
+                    .append("~").append(briefMarketPzPO.getHighest()).append("元/斤。");
         } else {
-            brief.append("价格稳定在").append(briefMarketPzPO.getAverage()).append("左右。");
+            brief.append("价格稳定在").append(briefMarketPzPO.getAverage()).append("元/斤左右。");
         }
 
         brief.append("与前天相比, ").append(briefMarketPzPO.getPz())
@@ -59,8 +59,8 @@ public class TextUtils {
             brief.append("保持平稳。");
         }
 
-        brief.append("预计今日的价格为").append(briefMarketPzPO.getPredictTd()).append("元, ")
-                .append("明日的价格可能会上涨至").append(briefMarketPzPO.getPredictTm()).append("元。");
+        brief.append("预计今日的价格为").append(briefMarketPzPO.getPredictTd()).append("元/斤, ")
+                .append("明日的价格可能会变为").append(briefMarketPzPO.getPredictTm()).append("元/斤。");
 
         return brief.toString();
     }
@@ -74,13 +74,13 @@ public class TextUtils {
         brief.append("昨日(").append(getYesterday()).append("), ")
                 .append(briefPrvcPzPO.getPrvc()).append("的【")
                 .append(briefPrvcPzPO.getPz()).append("】平均价格为")
-                .append(briefPrvcPzPO.getAverage()).append("元, ");
+                .append(briefPrvcPzPO.getAverage()).append("元/斤, ");
 
         if (!areDoublesEqual(briefPrvcPzPO.getHighest(), briefPrvcPzPO.getLowest(), 1e-9)) {
             brief.append("价格范围为").append(briefPrvcPzPO.getLowest())
-                    .append("~").append(briefPrvcPzPO.getHighest()).append("元。");
+                    .append("~").append(briefPrvcPzPO.getHighest()).append("元/斤。");
         } else {
-            brief.append("价格稳定在").append(briefPrvcPzPO.getAverage()).append("左右。");
+            brief.append("价格稳定在").append(briefPrvcPzPO.getAverage()).append("元/斤左右。");
         }
 
         brief.append("与前天相比, ").append(briefPrvcPzPO.getPz())
@@ -94,8 +94,8 @@ public class TextUtils {
             brief.append("保持平稳。");
         }
 
-        brief.append("预计今日的价格为").append(briefPrvcPzPO.getPredictTd()).append("元, ")
-                .append("明日的价格可能会上涨至").append(briefPrvcPzPO.getPredictTm()).append("元。");
+        brief.append("预计今日的价格为").append(briefPrvcPzPO.getPredictTd()).append("元/斤, ")
+                .append("明日的价格可能会变为").append(briefPrvcPzPO.getPredictTm()).append("元/斤。");
 
         return brief.toString();
     }
@@ -149,7 +149,7 @@ public class TextUtils {
         brief.append(briefPzPO.getPz())
                 .append("的全国均价为")
                 .append(briefPzPO.getAverage())
-                .append("。");
+                .append("元/斤。");
         if (StringUtils.isNotBlank(briefPzPO.getHighPrvc())) {
             brief.append("均价高于全国均价的省份有")
                     .append(briefPzPO.getHighPrvc())

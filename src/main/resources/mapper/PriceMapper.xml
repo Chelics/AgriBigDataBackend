@@ -197,8 +197,9 @@
     <select id="getPerPzTodayPrice" resultType="com.agri.agribigdata.entity.po.PricePerPzTodayPO">
         select * from per_pz_today
         <where>
+            prvc = '全国'
             <if test="pz != null and pz != ''">
-                pz LIKE #{pz}
+                AND pz LIKE #{pz}
             </if>
         </where>
         limit 1
@@ -207,8 +208,9 @@
     <select id="getPerPzWeekPrice" resultType="com.agri.agribigdata.entity.po.PricePerPzWeekPO">
         select * from per_pz_week
         <where>
+            prvc = '全国'
             <if test="pz != null and pz != ''">
-                pz LIKE #{pz}
+                AND pz LIKE #{pz}
             </if>
         </where>
         limit 1
